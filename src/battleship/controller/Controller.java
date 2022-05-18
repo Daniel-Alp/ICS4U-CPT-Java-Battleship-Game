@@ -1,6 +1,6 @@
 package battleship.controller;
 
-import battleship.ai.BattleshipAI;
+import battleship.ai.BattleshipAI2;
 import battleship.model.*;
 import battleship.view.BoardGraphics;
 import battleship.view.Frame;
@@ -12,7 +12,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Random;
 
 public class Controller {
     private BoardData userBoardData = new BoardData();
@@ -20,7 +19,7 @@ public class Controller {
     private Frame frame = new Frame(userBoardData, computerBoardData);
     private Orientation userCurShipOrientation = null;
     private Type userCurShipType = null;
-    private BattleshipAI battleshipAI = new BattleshipAI();
+    private BattleshipAI2 battleshipAI = new BattleshipAI2();
 
     public Controller () {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
