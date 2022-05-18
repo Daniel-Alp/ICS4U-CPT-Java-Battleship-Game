@@ -1,9 +1,9 @@
-package Battleship.view;
+package battleship.view;
 
-import Battleship.model.BoardData;
-import Battleship.model.Coordinate;
-import Battleship.model.GameState;
-import Battleship.model.Ship;
+import battleship.model.BoardData;
+import battleship.model.Coordinate;
+import battleship.model.GameState;
+import battleship.model.Ship;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +33,7 @@ public abstract class BoardGraphics extends JPanel {
         drawShips(graphics2D);
 //        ImageIcon imageIcon = new ImageIcon("src\\res\\carrier_ship.png");
 //        imageIcon.paintIcon(this, graphics, 0, 0);
-        if (GameState.getState() == GameState.USER_TURN || GameState.getState() == GameState.COMPUTER_TURN) {
+        if (GameState.getState() != GameState.SETUP) {
             drawShots(graphics2D);
         }
     }

@@ -1,4 +1,4 @@
-package Battleship.model;
+package battleship.model;
 
 public class Coordinate {
     private int row;

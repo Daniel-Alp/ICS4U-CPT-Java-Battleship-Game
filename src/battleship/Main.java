@@ -1,6 +1,6 @@
-package Battleship;
+package battleship;
 
-import Battleship.controller.Controller;
+import battleship.controller.Controller;
 
 public class Main {
     public static void main(String[] args) {

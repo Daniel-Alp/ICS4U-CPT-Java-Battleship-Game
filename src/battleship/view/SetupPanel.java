@@ -1,8 +1,8 @@
-package Battleship.view;
+package battleship.view;
 
-import Battleship.model.BoardData;
-import Battleship.model.Orientation;
-import Battleship.model.Type;
+import battleship.model.BoardData;
+import battleship.model.Orientation;
+import battleship.model.Type;
 
 import javax.swing.*;
 import java.awt.*;

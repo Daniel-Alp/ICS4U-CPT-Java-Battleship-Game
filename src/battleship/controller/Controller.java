@@ -1,8 +1,9 @@
-package Battleship.controller;
+package battleship.controller;
 
-import Battleship.model.*;
-import Battleship.view.BoardGraphics;
-import Battleship.view.Frame;
+import battleship.ai.BattleshipAI;
+import battleship.model.*;
+import battleship.view.BoardGraphics;
+import battleship.view.Frame;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +12,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 public class Controller {
     private BoardData userBoardData = new BoardData();
@@ -18,6 +20,7 @@ public class Controller {
     private Frame frame = new Frame(userBoardData, computerBoardData);
     private Orientation userCurShipOrientation = null;
     private Type userCurShipType = null;
+    private BattleshipAI battleshipAI = new BattleshipAI();
 
     public Controller () {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
@@ -67,22 +70,44 @@ public class Controller {
         frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
+                //TODO Clean code and separate into individual chunks
                 if (!SwingUtilities.isLeftMouseButton(mouseEvent) || GameState.getState() != GameState.USER_TURN) {
                     return;
                 }
-                computerBoardData.getShotAt(BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint()));
-                if (computerBoardData.fleetSunk()) {
-                    System.out.println("GAME OVER");
+                Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
+                if (computerBoardData.getEnemyShots()[userTargetCoordinates.getRow()][userTargetCoordinates.getColumn()]) {
+                    return;
                 }
+                computerBoardData.getShotAt(userTargetCoordinates);
                 frame.repaint();
+//                Timer delay = new Timer(1000, new ActionListener() {
+//                    @Override
+//                    public void actionPerformed(ActionEvent e) {
+//                        System.exit(0);
+//                    }
+//                });
+                if (computerBoardData.fleetSunk()) {
+                    GameState.setState(GameState.RESULT);
+//                    delay.start();
+                    return;
+                }
+                GameState.setState(GameState.COMPUTER_TURN);
+                Coordinate computerTargetCoordinates = battleshipAI.getShot();
+                battleshipAI.update(userBoardData.getShotAt(computerTargetCoordinates), userBoardData.getLastShipTypeSunk());
+                frame.repaint();
+                GameState.setState(GameState.USER_TURN);
+                if (userBoardData.fleetSunk()) {
+                    GameState.setState(GameState.RESULT);
+//                    delay.start();
+                }
             }
         });
     }
 
     public void reset() {
-
         userBoardData.reset();
         computerBoardData.reset();
+        battleshipAI.reset();
         for (Type type : Type.values()) {
             placeComputerShip(type, Orientation.getRandomOrientation());
         }

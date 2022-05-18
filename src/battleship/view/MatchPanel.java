@@ -1,6 +1,6 @@
-package Battleship.view;
+package battleship.view;
 
-import Battleship.model.BoardData;
+import battleship.model.BoardData;
 
 import javax.swing.*;
 import java.awt.*;

@@ -1,12 +1,14 @@
-package Battleship.model;
+package battleship.model;
 
 public class Ship {
+    private Type type;
     private int length;
     private Orientation orientation;
     private int row, column;
     private int hitCounter = 0;
 
     public Ship (Type type, Orientation orientation, Coordinate coordinates) {
+        this.type = type;
         length = type.getLength();
         this.orientation = orientation;
         row = coordinates.getRow();
@@ -28,5 +30,9 @@ public class Ship {
 
     public boolean isSunk() {
         return hitCounter == length;
+    }
+
+    public Type getType() {
+        return type;
     }
 }
