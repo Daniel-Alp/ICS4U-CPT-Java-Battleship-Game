@@ -31,7 +31,7 @@ public abstract class BoardGraphics extends JPanel {
         Graphics2D graphics2D = (Graphics2D) graphics;
         drawGridlines(graphics2D);
         drawShips(graphics2D);
-//        ImageIcon imageIcon = new ImageIcon("src\\res\\carrier_ship.png");
+//        ImageIcon imageIcon = new ImageIcon("src\\res\\crosshair.png");
 //        imageIcon.paintIcon(this, graphics, 0, 0);
         if (GameState.getState() != GameState.SETUP) {
             drawShots(graphics2D);
@@ -47,7 +47,7 @@ public abstract class BoardGraphics extends JPanel {
         }
     }
 
-    private void drawShots(Graphics2D graphics2D) {
+    protected void drawShots(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(10));
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {

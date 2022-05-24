@@ -16,7 +16,8 @@ public class SetupPanel extends JPanel {
     private ButtonGroup typeButtonGroup = new ButtonGroup();
     private ButtonGroup orientationButtonGroup = new ButtonGroup();
     private JButton resetButton = new JButton("Reset Board");
-    private JButton startMatchButton = new JButton("Start Match");
+    private JButton matchStartButton = new JButton("Start Match");
+    private JButton menuButton = new JButton("To Menu");
 
     public SetupPanel (BoardData userBoardData) {
         setBounds(0, 0, 1280, 720);
@@ -45,23 +46,18 @@ public class SetupPanel extends JPanel {
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                for (JRadioButton option : typeOptions) {
-                    option.setEnabled(true);
-                    option.setSelected(false);
-                }
-                for (JRadioButton option : orientationOptions) {
-                    option.setSelected(false);
-                }
-                typeButtonGroup.clearSelection();
-                orientationButtonGroup.clearSelection();
+                resetTypeOptions();
             }
         });
         add(resetButton);
-        startMatchButton.setBounds(240, 575, 120, 60);
-        add(startMatchButton);
+        matchStartButton.setBounds(240, 575, 120, 60);
+        add(matchStartButton);
 
         userBoardGraphics = new UserBoardGraphics(userBoardData, 670, 85);
         add(userBoardGraphics);
+
+        menuButton.setBounds(0, 0, 180, 60);
+        add(menuButton);
     }
 
     public UserBoardGraphics getUserBoardGraphics() {
@@ -80,12 +76,28 @@ public class SetupPanel extends JPanel {
         return resetButton;
     }
 
-    public JButton getStartMatchButton() {
-        return startMatchButton;
+    public JButton getMatchStartButton() {
+        return matchStartButton;
+    }
+
+    public JButton getMenuButton() {
+        return menuButton;
     }
 
     public void updateTypeOptions() {
         typeButtonGroup.getSelection().setEnabled(false);
+        typeButtonGroup.clearSelection();
+        orientationButtonGroup.clearSelection();
+    }
+
+    public void resetTypeOptions() {
+        for (JRadioButton option : typeOptions) {
+            option.setEnabled(true);
+            option.setSelected(false);
+        }
+        for (JRadioButton option : orientationOptions) {
+            option.setSelected(false);
+        }
         typeButtonGroup.clearSelection();
         orientationButtonGroup.clearSelection();
     }

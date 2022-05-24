@@ -1,7 +1,7 @@
 package battleship.model;
 
 public enum GameState {
-    SETUP, USER_TURN, COMPUTER_TURN, RESULT;
+    SETUP, MATCH, RESULT;
     private static GameState state;
 
     public static GameState getState() {

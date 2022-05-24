@@ -1,6 +1,6 @@
 package battleship.controller;
 
-import battleship.ai.BattleshipAI2;
+import battleship.ai.BattleshipAI;
 import battleship.model.*;
 import battleship.view.BoardGraphics;
 import battleship.view.Frame;
@@ -19,7 +19,8 @@ public class Controller {
     private Frame frame = new Frame(userBoardData, computerBoardData);
     private Orientation userCurShipOrientation = null;
     private Type userCurShipType = null;
-    private BattleshipAI2 battleshipAI = new BattleshipAI2();
+    private BattleshipAI battleshipAI = new BattleshipAI();
+    private StatTracker statTracker = new StatTracker();
 
     public Controller () {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
@@ -70,7 +71,7 @@ public class Controller {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 //TODO Clean code and separate into individual chunks
-                if (!SwingUtilities.isLeftMouseButton(mouseEvent) || GameState.getState() != GameState.USER_TURN) {
+                if (!SwingUtilities.isLeftMouseButton(mouseEvent) || GameState.getState() != GameState.MATCH) {
                     return;
                 }
                 Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
@@ -79,25 +80,44 @@ public class Controller {
                 }
                 computerBoardData.getShotAt(userTargetCoordinates);
                 frame.repaint();
-//                Timer delay = new Timer(1000, new ActionListener() {
-//                    @Override
-//                    public void actionPerformed(ActionEvent e) {
-//                        System.exit(0);
-//                    }
-//                });
                 if (computerBoardData.fleetSunk()) {
+                    frame.repaint();
                     GameState.setState(GameState.RESULT);
-//                    delay.start();
+                    statTracker.getStats().increaseUserWins();
+                    System.out.println("User wins: " + statTracker.getStats().getUserWins());
+                    System.out.println("Computer wins: " + statTracker.getStats().getComputerWins());
+                    System.out.println("USER WON");
+                    statTracker.updateStatsFile();
                     return;
                 }
-                GameState.setState(GameState.COMPUTER_TURN);
-                Coordinate computerTargetCoordinates = battleshipAI.getShot();
-                battleshipAI.update(userBoardData.getShotAt(computerTargetCoordinates), userBoardData.getLastShipTypeSunk());
                 frame.repaint();
-                GameState.setState(GameState.USER_TURN);
+                Coordinate computerTargetCoordinates = battleshipAI.getShot();
+                battleshipAI.update(userBoardData.getShotAt(computerTargetCoordinates), userBoardData.getTypeSunk());
                 if (userBoardData.fleetSunk()) {
                     GameState.setState(GameState.RESULT);
-//                    delay.start();
+                    statTracker.getStats().increaseComputerWins();
+                    System.out.println("User wins: " + statTracker.getStats().getUserWins());
+                    System.out.println("Computer wins: " + statTracker.getStats().getComputerWins());
+                    System.out.println("COMPUTER WON");
+                    statTracker.updateStatsFile();
+                }
+                frame.repaint();
+            }
+        });
+        frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                reset();
+                frame.getSetupPanel().resetTypeOptions();
+                frame.showPanel("setup");
+            }
+        });
+        frame.getSetupPanel().getMatchStartButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if (userBoardData.isReady()) {
+                    frame.showPanel("match");
+                    GameState.setState(GameState.MATCH);
                 }
             }
         });

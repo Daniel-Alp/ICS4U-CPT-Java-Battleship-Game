@@ -6,7 +6,7 @@ public class BoardData {
     public static final int BOARD_SIZE = 10;
     private ArrayList<Ship> ships = new ArrayList<>();
     private boolean[][] enemyShots = new boolean[BOARD_SIZE][BOARD_SIZE];
-    private Type lastShipTypeSunk = null;
+    private Type typeSunk;
 
     public void reset() {
         ships.clear();
@@ -48,11 +48,12 @@ public class BoardData {
 
     public boolean getShotAt (Coordinate targetCoordinates) {
         enemyShots[targetCoordinates.getRow()][targetCoordinates.getColumn()] = true;
+        typeSunk = null;
         for (Ship ship : ships) {
             if (ship.containsCoordinates(targetCoordinates)) {
                 ship.hit();
                 if (ship.isSunk()) {
-                    lastShipTypeSunk = ship.getType();
+                    typeSunk = ship.getType();
                 }
                 return true;
             }
@@ -69,8 +70,8 @@ public class BoardData {
         return true;
     }
 
-    public Type getLastShipTypeSunk() {
-        return lastShipTypeSunk;
+    public Type getTypeSunk() {
+        return typeSunk;
     }
 
     public ArrayList<Ship> getShips() {
