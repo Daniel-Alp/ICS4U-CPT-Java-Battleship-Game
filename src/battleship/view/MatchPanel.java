@@ -10,7 +10,6 @@ public class MatchPanel extends JPanel {
     private ComputerBoardGraphics computerBoardGraphics;
     private JLabel userBoardLabel = new JLabel("User Board");
     private JLabel computerBoardLabel = new JLabel("Computer Board");
-    private JButton menuButton = new JButton("To Menu");
 
     public MatchPanel (BoardData userBoardData, BoardData computerBoardData) {
         setBounds(0, 0, 1280, 720);
@@ -25,16 +24,9 @@ public class MatchPanel extends JPanel {
         add(userBoardGraphics);
         computerBoardGraphics = new ComputerBoardGraphics(computerBoardData, 60, 85);
         add(computerBoardGraphics);
-
-        menuButton.setBounds(0, 0, 180, 60);
-        add(menuButton);
     }
 
     public ComputerBoardGraphics getComputerBoardGraphics() {
         return computerBoardGraphics;
-    }
-
-    public JButton getMenuButton() {
-        return menuButton;
     }
 }

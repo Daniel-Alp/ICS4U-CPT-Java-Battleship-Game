@@ -16,11 +16,11 @@ import java.util.Collections;
 public class Controller {
     private BoardData userBoardData = new BoardData();
     private BoardData computerBoardData = new BoardData();
-    private Frame frame = new Frame(userBoardData, computerBoardData);
+    private StatTracker statTracker = new StatTracker();
+    private Frame frame = new Frame(userBoardData, computerBoardData, statTracker.getStats());
     private Orientation userCurShipOrientation = null;
     private Type userCurShipType = null;
     private BattleshipAI battleshipAI = new BattleshipAI();
-    private StatTracker statTracker = new StatTracker();
 
     public Controller () {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
@@ -84,10 +84,8 @@ public class Controller {
                     frame.repaint();
                     GameState.setState(GameState.RESULT);
                     statTracker.getStats().increaseUserWins();
-                    System.out.println("User wins: " + statTracker.getStats().getUserWins());
-                    System.out.println("Computer wins: " + statTracker.getStats().getComputerWins());
-                    System.out.println("USER WON");
                     statTracker.updateStatsFile();
+                    frame.showPanel("result");
                     return;
                 }
                 frame.repaint();
@@ -96,10 +94,8 @@ public class Controller {
                 if (userBoardData.fleetSunk()) {
                     GameState.setState(GameState.RESULT);
                     statTracker.getStats().increaseComputerWins();
-                    System.out.println("User wins: " + statTracker.getStats().getUserWins());
-                    System.out.println("Computer wins: " + statTracker.getStats().getComputerWins());
-                    System.out.println("COMPUTER WON");
                     statTracker.updateStatsFile();
+                    frame.showPanel("result");
                 }
                 frame.repaint();
             }
