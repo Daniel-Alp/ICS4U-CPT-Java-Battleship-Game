@@ -10,16 +10,16 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SetupPanel extends JPanel {
-    private UserBoardGraphics userBoardGraphics;
-    private JRadioButton[] typeOptions = new JRadioButton[5];
-    private JRadioButton[] orientationOptions = new JRadioButton[2];
-    private ButtonGroup typeButtonGroup = new ButtonGroup();
-    private ButtonGroup orientationButtonGroup = new ButtonGroup();
-    private JButton resetButton = new JButton("Reset Board");
-    private JButton matchStartButton = new JButton("Start Match");
-    private JButton menuButton = new JButton("To Menu");
+    private final UserBoardGraphics userBoardGraphics;
+    private final JRadioButton[] typeOptions = new JRadioButton[5];
+    private final JRadioButton[] orientationOptions = new JRadioButton[2];
+    private final ButtonGroup typeButtonGroup = new ButtonGroup();
+    private final ButtonGroup orientationButtonGroup = new ButtonGroup();
+    private final JButton resetButton = new JButton("Reset Board");
+    private final JButton matchStartButton = new JButton("Start Match");
+    private final JButton instructionButton = new JButton("Instructions");
 
-    public SetupPanel (BoardData userBoardData) {
+    public SetupPanel(BoardData userBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
         setBackground(new Color(194, 195, 199));
@@ -56,8 +56,26 @@ public class SetupPanel extends JPanel {
         userBoardGraphics = new UserBoardGraphics(userBoardData, 670, 85);
         add(userBoardGraphics);
 
-        menuButton.setBounds(0, 0, 180, 60);
-        add(menuButton);
+        instructionButton.setBounds(420, 575, 120, 60);
+        add(instructionButton);
+    }
+
+    public void resetTypeOptions() {
+        for (JRadioButton option : typeOptions) {
+            option.setEnabled(true);
+            option.setSelected(false);
+        }
+        for (JRadioButton option : orientationOptions) {
+            option.setSelected(false);
+        }
+        typeButtonGroup.clearSelection();
+        orientationButtonGroup.clearSelection();
+    }
+
+    public void updateTypeOptions() {
+        typeButtonGroup.getSelection().setEnabled(false);
+        typeButtonGroup.clearSelection();
+        orientationButtonGroup.clearSelection();
     }
 
     public UserBoardGraphics getUserBoardGraphics() {
@@ -80,25 +98,7 @@ public class SetupPanel extends JPanel {
         return matchStartButton;
     }
 
-    public JButton getMenuButton() {
-        return menuButton;
-    }
-
-    public void updateTypeOptions() {
-        typeButtonGroup.getSelection().setEnabled(false);
-        typeButtonGroup.clearSelection();
-        orientationButtonGroup.clearSelection();
-    }
-
-    public void resetTypeOptions() {
-        for (JRadioButton option : typeOptions) {
-            option.setEnabled(true);
-            option.setSelected(false);
-        }
-        for (JRadioButton option : orientationOptions) {
-            option.setSelected(false);
-        }
-        typeButtonGroup.clearSelection();
-        orientationButtonGroup.clearSelection();
+    public JButton getInstructionButton() {
+        return instructionButton;
     }
 }

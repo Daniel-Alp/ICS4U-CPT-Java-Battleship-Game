@@ -22,7 +22,7 @@ public class Controller {
     private Type userCurShipType = null;
     private BattleshipAI battleshipAI = new BattleshipAI();
 
-    public Controller () {
+    public Controller() {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
@@ -34,9 +34,8 @@ public class Controller {
                     return;
                 }
                 if (!userBoardData.isValidPlacement(userCurShipType.getLength(), userCurShipOrientation, coordinate)) {
-                   return;
+                    return;
                 }
-
                 userBoardData.placeShip(new Ship(userCurShipType, userCurShipOrientation, coordinate));
                 userCurShipType = null;
                 userCurShipOrientation = null;
@@ -70,34 +69,17 @@ public class Controller {
         frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                //TODO Clean code and separate into individual chunks
                 if (!SwingUtilities.isLeftMouseButton(mouseEvent) || GameState.getState() != GameState.MATCH) {
                     return;
                 }
                 Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
-                if (computerBoardData.getEnemyShots()[userTargetCoordinates.getRow()][userTargetCoordinates.getColumn()]) {
+                if (!computerBoardData.isValidShot(userTargetCoordinates)) {
                     return;
                 }
-                computerBoardData.getShotAt(userTargetCoordinates);
-                frame.repaint();
-                if (computerBoardData.fleetSunk()) {
-                    frame.repaint();
-                    GameState.setState(GameState.RESULT);
-                    statTracker.getStats().increaseUserWins();
-                    statTracker.updateStatsFile();
-                    frame.showPanel("result");
-                    return;
+                nextMove(computerBoardData, userTargetCoordinates);
+                if (GameState.getState() == GameState.MATCH) {
+                    nextMove(userBoardData, battleshipAI.getShot());
                 }
-                frame.repaint();
-                Coordinate computerTargetCoordinates = battleshipAI.getShot();
-                battleshipAI.update(userBoardData.getShotAt(computerTargetCoordinates), userBoardData.getTypeSunk());
-                if (userBoardData.fleetSunk()) {
-                    GameState.setState(GameState.RESULT);
-                    statTracker.getStats().increaseComputerWins();
-                    statTracker.updateStatsFile();
-                    frame.showPanel("result");
-                }
-                frame.repaint();
             }
         });
         frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
@@ -119,7 +101,7 @@ public class Controller {
         });
     }
 
-    public void reset() {
+    private void reset() {
         userBoardData.reset();
         computerBoardData.reset();
         battleshipAI.reset();
@@ -128,7 +110,7 @@ public class Controller {
         }
     }
 
-    private void placeComputerShip (Type type, Orientation orientation) {
+    private void placeComputerShip(Type type, Orientation orientation) {
         ArrayList<Coordinate> validCoordinates = new ArrayList<>();
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
             for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
@@ -140,5 +122,24 @@ public class Controller {
         }
         Collections.shuffle(validCoordinates);
         computerBoardData.placeShip(new Ship(type, orientation, validCoordinates.get(0)));
+    }
+
+    private void nextMove(BoardData targetBoardData, Coordinate targetCoordinates) {
+        if (targetBoardData == userBoardData) {
+            battleshipAI.update(targetBoardData.getFiredAt(targetCoordinates), targetBoardData.getTypeSunk());
+        } else {
+            targetBoardData.getFiredAt(targetCoordinates);
+        }
+        frame.repaint();
+        if (targetBoardData.fleetSunk()) {
+            if (targetBoardData == userBoardData) {
+                statTracker.getStats().increaseComputerWins();
+            } else {
+                statTracker.getStats().increaseUserWins();
+            }
+            statTracker.updateStatsFile();
+            frame.showPanel("result");
+            GameState.setState(GameState.RESULT);
+        }
     }
 }

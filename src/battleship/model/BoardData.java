@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 public class BoardData {
     public static final int BOARD_SIZE = 10;
-    private ArrayList<Ship> ships = new ArrayList<>();
-    private boolean[][] enemyShots = new boolean[BOARD_SIZE][BOARD_SIZE];
+    private final ArrayList<Ship> ships = new ArrayList<>();
+    private final boolean[][] enemyShots = new boolean[BOARD_SIZE][BOARD_SIZE];
     private Type typeSunk;
 
     public void reset() {
@@ -43,10 +43,14 @@ public class BoardData {
     }
 
     public boolean isReady() {
-        return ships.size() == 5;
+        return ships.size() == Type.values().length;
     }
 
-    public boolean getShotAt (Coordinate targetCoordinates) {
+    public boolean isValidShot(Coordinate target) {
+        return !enemyShots[target.getRow()][target.getColumn()];
+    }
+
+    public boolean getFiredAt(Coordinate targetCoordinates) {
         enemyShots[targetCoordinates.getRow()][targetCoordinates.getColumn()] = true;
         typeSunk = null;
         for (Ship ship : ships) {
@@ -78,7 +82,7 @@ public class BoardData {
         return ships;
     }
 
-    public boolean[][] getEnemyShots () {
+    public boolean[][] getEnemyShots() {
         return enemyShots;
     }
 }

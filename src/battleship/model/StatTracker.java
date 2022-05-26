@@ -4,7 +4,7 @@ import java.io.*;
 
 public class StatTracker {
     private Stats stats;
-    private File statsFile = new File("stats.txt");
+    private final File statsFile = new File("stats.txt");
 
     public StatTracker() {
         if (!statsFile.exists()) {

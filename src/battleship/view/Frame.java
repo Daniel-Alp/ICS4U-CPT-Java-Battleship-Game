@@ -1,7 +1,6 @@
 package battleship.view;
 
 import battleship.model.BoardData;
-import battleship.model.StatTracker;
 import battleship.model.Stats;
 
 import javax.swing.*;
@@ -17,13 +16,14 @@ public class Frame extends JFrame {
     private JPanel cardPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
 
-    public Frame (BoardData userBoardData, BoardData computerBoardData, Stats stats) {
+    public Frame(BoardData userBoardData, BoardData computerBoardData, Stats stats) {
         setTitle("ICS4U1 CPT - Java Battleship");
-        setSize(1280,720);
+        setSize(1280, 720);
         setResizable(false);
         setLayout(null);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+
         cardPanel.setBounds(0, 0, 1280, 720);
         cardPanel.setLayout(cardLayout);
         add(cardPanel);
@@ -43,26 +43,26 @@ public class Frame extends JFrame {
         cardPanel.add(menuPanel);
 
         InstructionPanel instructionPanel = new InstructionPanel();
-        instructionPanel.getMenuButton().addActionListener(new ActionListener() {
+        instructionPanel.getMatchSetupButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                showPanel("menu");
+                showPanel("setup");
             }
         });
         cardPanel.add(instructionPanel);
         cardLayout.addLayoutComponent(instructionPanel, "instruction");
 
         setupPanel = new SetupPanel(userBoardData);
-        setupPanel.getMenuButton().addActionListener(new ActionListener() {
+        setupPanel.getInstructionButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int response = JOptionPane.showConfirmDialog(
                         Frame.this,
-                        "Are you sure you want to return to menu? Progress will not be saved.",
-                        "Return to menu",
+                        "Are you sure you want to exit setup? Progress will not be saved.",
+                        "Exit setup",
                         JOptionPane.YES_NO_OPTION);
                 if (response == JOptionPane.YES_OPTION) {
-                    showPanel("menu");
+                    showPanel("instruction");
                 }
             }
         });
@@ -90,18 +90,6 @@ public class Frame extends JFrame {
         cardLayout.show(cardPanel, "menu");
     }
 
-    public MenuPanel getMenuPanel () {
-        return menuPanel;
-    }
-
-    public SetupPanel getSetupPanel() {
-        return setupPanel;
-    }
-
-    public MatchPanel getMatchPanel() {
-        return matchPanel;
-    }
-
     public void showPanel(String panelName) {
         if (panelName.equals("result")) {
             Timer delayTimer = new Timer(2000, new ActionListener() {
@@ -116,5 +104,17 @@ public class Frame extends JFrame {
         } else {
             cardLayout.show(cardPanel, panelName);
         }
+    }
+
+    public MenuPanel getMenuPanel() {
+        return menuPanel;
+    }
+
+    public SetupPanel getSetupPanel() {
+        return setupPanel;
+    }
+
+    public MatchPanel getMatchPanel() {
+        return matchPanel;
     }
 }

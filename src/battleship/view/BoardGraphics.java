@@ -31,8 +31,6 @@ public abstract class BoardGraphics extends JPanel {
         Graphics2D graphics2D = (Graphics2D) graphics;
         drawGridlines(graphics2D);
         drawShips(graphics2D);
-//        ImageIcon imageIcon = new ImageIcon("src\\res\\crosshair.png");
-//        imageIcon.paintIcon(this, graphics, 0, 0);
         if (GameState.getState() != GameState.SETUP) {
             drawShots(graphics2D);
         }
@@ -55,7 +53,7 @@ public abstract class BoardGraphics extends JPanel {
                 if (boardData.getEnemyShots()[row][column]) {
                     boolean shipHit = false;
                     for (Ship ship : boardData.getShips()) {
-                        if (ship.containsCoordinates(new Coordinate(row,column))) {
+                        if (ship.containsCoordinates(new Coordinate(row, column))) {
                             graphics2D.setColor(new Color(255, 0, 77));
                             graphics2D.drawLine(column * TILE_SIZE + 20, row * TILE_SIZE + 20, (column + 1) * TILE_SIZE - 20, (row + 1) * TILE_SIZE - 20);
                             graphics2D.drawLine((column + 1) * TILE_SIZE - 20, row * TILE_SIZE + 20, column * TILE_SIZE + 20, (row + 1) * TILE_SIZE - 20);

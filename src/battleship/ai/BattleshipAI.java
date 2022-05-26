@@ -1,20 +1,22 @@
 package battleship.ai;
 
-import battleship.model.*;
+import battleship.model.BoardData;
+import battleship.model.Coordinate;
+import battleship.model.Type;
 
 import java.util.*;
 
 public class BattleshipAI {
-    private boolean[][] validShots = new boolean[10][10];
-    private Stack<Coordinate> targetingShots = new Stack<>();
-    private HashSet<Type> typesRemaining = new HashSet<>();
+    private final boolean[][] validShots = new boolean[BoardData.BOARD_SIZE][BoardData.BOARD_SIZE];
+    private final Stack<Coordinate> targetingShots = new Stack<>();
+    private final HashSet<Type> typesRemaining = new HashSet<>();
     private Type shortestTypeRemaining;
     private Coordinate prevShot;
-    private Random random = new Random();
+    private final Random random = new Random();
 
     public void reset() {
-        for (int row = 0; row < 10; row++) {
-            for (int column = 0; column < 10; column++) {
+        for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
+            for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
                 validShots[row][column] = true;
             }
         }
@@ -58,8 +60,8 @@ public class BattleshipAI {
         }
         if (shot == null) {
             ArrayList<Coordinate> huntingShots = new ArrayList<>();
-            for (int row = 0; row < 10; row++) {
-                for (int column = 0; column < 10; column++) {
+            for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
+                for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
                     if ((row + column) % shortestTypeRemaining.getLength() == 0 && validShots[row][column]) {
                         huntingShots.add(new Coordinate(row, column));
                     }

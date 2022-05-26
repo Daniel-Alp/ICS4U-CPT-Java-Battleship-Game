@@ -4,13 +4,13 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SplashScreen extends JPanel {
-    private ImageIcon splashScreenImg = new ImageIcon("src\\res\\splashscreen.jpg");
-    private JProgressBar loadingBar = new JProgressBar();
-    private int percent = 0;
+    private final ImageIcon splashScreenImg = new ImageIcon("src\\res\\splashscreen.png");
+    private final JProgressBar loadingBar = new JProgressBar();
 
-    public SplashScreen () {
+    public SplashScreen() {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
+
         loadingBar.setBounds(340, 345, 600, 30);
         add(loadingBar);
     }
