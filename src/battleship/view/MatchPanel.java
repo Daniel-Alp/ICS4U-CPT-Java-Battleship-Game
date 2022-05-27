@@ -10,7 +10,6 @@ public class MatchPanel extends JPanel {
     private final ComputerBoardGraphics computerBoardGraphics;
     private final JLabel userBoardLabel = new JLabel("User Board");
     private final JLabel computerBoardLabel = new JLabel("Computer Board");
-
     private JButton quitButton = new JButton("Quit Button");
 
     public MatchPanel(BoardData userBoardData, BoardData computerBoardData) {
@@ -24,11 +23,15 @@ public class MatchPanel extends JPanel {
         computerBoardLabel.setBounds(285, 25, 100, 60);
         add(computerBoardLabel);
 
+        quitButton.setBounds(0, 0, 100, 60);
+        add(quitButton);
+
         userBoardGraphics = new UserBoardGraphics(userBoardData, 670, 85);
         add(userBoardGraphics);
 
         computerBoardGraphics = new ComputerBoardGraphics(computerBoardData, 60, 85);
         add(computerBoardGraphics);
+        
     }
 
     public ComputerBoardGraphics getComputerBoardGraphics() {
