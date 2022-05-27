@@ -11,6 +11,8 @@ public class MatchPanel extends JPanel {
     private final JLabel userBoardLabel = new JLabel("User Board");
     private final JLabel computerBoardLabel = new JLabel("Computer Board");
 
+    private JButton quitButton = new JButton("Quit Button");
+
     public MatchPanel(BoardData userBoardData, BoardData computerBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);

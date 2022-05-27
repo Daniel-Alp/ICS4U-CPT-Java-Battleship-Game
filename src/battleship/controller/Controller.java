@@ -90,6 +90,14 @@ public class Controller {
                 frame.showPanel("setup");
             }
         });
+        frame.getInstructionPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                reset();
+                frame.getSetupPanel().resetTypeOptions();
+                frame.showPanel("setup");
+            }
+        });
         frame.getSetupPanel().getMatchStartButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

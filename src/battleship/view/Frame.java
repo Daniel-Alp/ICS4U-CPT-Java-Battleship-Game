@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 
 public class Frame extends JFrame {
     private MenuPanel menuPanel;
+    private InstructionPanel instructionPanel;
     private SetupPanel setupPanel;
     private MatchPanel matchPanel;
     private ResultPanel resultPanel;
@@ -42,7 +43,7 @@ public class Frame extends JFrame {
         cardLayout.addLayoutComponent(menuPanel, "menu");
         cardPanel.add(menuPanel);
 
-        InstructionPanel instructionPanel = new InstructionPanel();
+        instructionPanel = new InstructionPanel();
         instructionPanel.getMatchSetupButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -108,6 +109,10 @@ public class Frame extends JFrame {
 
     public MenuPanel getMenuPanel() {
         return menuPanel;
+    }
+
+    public InstructionPanel getInstructionPanel() {
+        return instructionPanel;
     }
 
     public SetupPanel getSetupPanel() {
