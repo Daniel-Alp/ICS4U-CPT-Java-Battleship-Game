@@ -22,6 +22,7 @@ public class Controller {
     private Type userCurShipType = null;
     private BattleshipAI battleshipAI = new BattleshipAI();
 
+
     public Controller() {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
             @Override
