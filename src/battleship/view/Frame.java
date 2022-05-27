@@ -57,22 +57,22 @@ public class Frame extends JFrame {
         setupPanel.getInstructionButton().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                int response = JOptionPane.showConfirmDialog(
-                        Frame.this,
-                        "Are you sure you want to exit setup? Progress will not be saved.",
-                        "Exit setup",
-                        JOptionPane.YES_NO_OPTION);
-                if (response == JOptionPane.YES_OPTION) {
-                    showPanel("instruction");
-                }
+                confirmExit("setup");
             }
         });
         cardLayout.addLayoutComponent(setupPanel, "setup");
         cardPanel.add(setupPanel);
 
         matchPanel = new MatchPanel(userBoardData, computerBoardData);
+        matchPanel.getQuitButton().addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                confirmExit("match");
+            }
+        });
         cardLayout.addLayoutComponent(matchPanel, "match");
         cardPanel.add(matchPanel);
+
 
         resultPanel = new ResultPanel(userBoardData, stats);
         resultPanel.getMenuButton().addActionListener(new ActionListener() {
@@ -104,6 +104,20 @@ public class Frame extends JFrame {
             delayTimer.setRepeats(false);
         } else {
             cardLayout.show(cardPanel, panelName);
+        }
+    }
+
+    public void confirmExit(String currentPanel) {
+        int response = JOptionPane.showConfirmDialog(
+                Frame.this,
+                "Are you sure you want to exit " + currentPanel + "? Progress will not be saved.",
+                "exitMatch",
+                JOptionPane.YES_NO_OPTION);
+        if (response == JOptionPane.YES_OPTION && currentPanel.equals("setup")) {
+            showPanel("instruction");
+        }
+        else if (response == JOptionPane.YES_OPTION && currentPanel.equals("match")) {
+            showPanel("menu");
         }
     }
 
