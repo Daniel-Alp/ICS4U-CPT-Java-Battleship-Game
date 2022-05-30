@@ -1,11 +1,11 @@
 package battleship.model;
 
 public class Ship {
-    private final Type type;
-    private final int length;
-    private final Orientation orientation;
-    private final int row;
-    private final int column;
+    private Type type;
+    private int length;
+    private Orientation orientation;
+    private int row;
+    private int column;
     private int hitCounter = 0;
 
     public Ship(Type type, Orientation orientation, Coordinate coordinates) {

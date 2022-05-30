@@ -18,7 +18,9 @@ public class ResultPanel extends JPanel {
         setBackground(new Color(194, 195, 199));
         setLayout(null);
 
-        winner.setBounds(540, 340, 200, 40);
+        winner.setBounds(0, 0, 1280, 100);
+        winner.setHorizontalAlignment(SwingConstants.CENTER);
+        winner.setFont(new Font("", Font.BOLD, 50));
         add(winner);
 
         winStats.setBounds(400, 380, 480, 40);

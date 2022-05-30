@@ -1,7 +1,6 @@
 package battleship.view;
 
 import battleship.model.BoardData;
-import battleship.model.Type;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,7 +11,6 @@ public class MatchPanel extends JPanel {
     private final JLabel userBoardLabel = new JLabel("User Board");
     private final JLabel computerBoardLabel = new JLabel("Computer Board");
     private JButton quitButton = new JButton("Quit Button");
-
     private JLabel infoText = new JLabel();
 
     public MatchPanel(BoardData userBoardData, BoardData computerBoardData) {
@@ -34,42 +32,14 @@ public class MatchPanel extends JPanel {
 
         computerBoardGraphics = new ComputerBoardGraphics(computerBoardData, 60, 85);
         add(computerBoardGraphics);
-
-        infoText.setBounds(300, 100, 680, 300);
-        add(infoText);
-    }
-
-    public void setInfoText(boolean userShotHit, boolean computerShotHit, Type userTypeShip, Type computerTypeShip){
-
-        String userText = "";
-        String computerText = "";
-
-        if(userShotHit){
-            userText += "You hit the enemy ";
-            if(userTypeShip != null){
-                userText += "and sunk their "+userTypeShip.toString().toLowerCase();
-            }
-        }else{
-            userText += "You missed the enemy ";
-        }
-
-        if(computerShotHit){
-            computerText += "Enemy hit your ship ";
-            if(computerTypeShip != null){
-                computerText += "and sunk your "+userTypeShip.toString().toLowerCase();
-            }
-        }else{
-            computerText += "Enemy hit your ship ";
-        }
-
-        infoText.setText(String.format("<html>%s<br/>%s<html>", userText, computerText));
     }
 
     public ComputerBoardGraphics getComputerBoardGraphics() {
         return computerBoardGraphics;
     }
 
-    public JButton getQuitButton() {return quitButton;}
-
+    public JButton getQuitButton() {
+        return quitButton;
+    }
 }
 

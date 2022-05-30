@@ -70,17 +70,20 @@ public class Controller {
         frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                if (!SwingUtilities.isLeftMouseButton(mouseEvent) || GameState.getState() != GameState.MATCH) {
+                if (!SwingUtilities.isLeftMouseButton(mouseEvent)) {
                     return;
                 }
                 Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
                 if (!computerBoardData.isValidShot(userTargetCoordinates)) {
                     return;
                 }
-                nextMove(computerBoardData, userTargetCoordinates);
+                if (GameState.getState() == GameState.MATCH) {
+                    nextMove(computerBoardData, userTargetCoordinates);
+                }
                 if (GameState.getState() == GameState.MATCH) {
                     nextMove(userBoardData, battleshipAI.getShot());
                 }
+                frame.repaint();
             }
         });
         frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
@@ -139,8 +142,8 @@ public class Controller {
         } else {
             targetBoardData.getFiredAt(targetCoordinates);
         }
-        frame.repaint();
         if (targetBoardData.fleetSunk()) {
+            GameState.setState(GameState.RESULT);
             if (targetBoardData == userBoardData) {
                 statTracker.getStats().increaseComputerWins();
             } else {
@@ -148,7 +151,6 @@ public class Controller {
             }
             statTracker.updateStatsFile();
             frame.showPanel("result");
-            GameState.setState(GameState.RESULT);
         }
     }
 }

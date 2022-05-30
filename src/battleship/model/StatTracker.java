@@ -4,13 +4,14 @@ import java.io.*;
 
 public class StatTracker {
     private Stats stats;
-    private final File statsFile = new File("stats.txt");
+    private File statsFile = new File("stats.txt");
 
     public StatTracker() {
         if (!statsFile.exists()) {
             try {
                 statsFile.createNewFile();
             } catch (IOException e) {
+
 
             }
             stats = new Stats();
