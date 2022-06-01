@@ -1,3 +1,10 @@
+/*
+ *
+ *
+ *
+ *
+ */
+
 package battleship.view;
 
 import battleship.model.BoardData;
@@ -6,13 +13,17 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MatchPanel extends JPanel {
-    private final UserBoardGraphics userBoardGraphics;
-    private final ComputerBoardGraphics computerBoardGraphics;
-    private final JLabel userBoardLabel = new JLabel("User Board");
-    private final JLabel computerBoardLabel = new JLabel("Computer Board");
+    private UserBoardGraphics userBoardGraphics;
+    private ComputerBoardGraphics computerBoardGraphics;
+    private JLabel userBoardLabel = new JLabel("User Board");
+    private JLabel computerBoardLabel = new JLabel("Computer Board");
     private JButton quitButton = new JButton("Quit Button");
-    private JLabel infoText = new JLabel();
 
+    /**
+     *
+     * @param userBoardData
+     * @param computerBoardData
+     */
     public MatchPanel(BoardData userBoardData, BoardData computerBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
@@ -34,10 +45,18 @@ public class MatchPanel extends JPanel {
         add(computerBoardGraphics);
     }
 
+    /**
+     *
+     * @return
+     */
     public ComputerBoardGraphics getComputerBoardGraphics() {
         return computerBoardGraphics;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getQuitButton() {
         return quitButton;
     }

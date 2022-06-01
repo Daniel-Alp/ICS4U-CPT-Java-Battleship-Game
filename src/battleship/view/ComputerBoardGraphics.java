@@ -12,26 +12,44 @@ public class ComputerBoardGraphics extends BoardGraphics {
     private Point crosshairPoint;
     private ImageIcon crosshairIcon = new ImageIcon("src\\res\\crosshair.png");
 
+    /**
+     *
+     * @param boardData
+     * @param x
+     * @param y
+     */
     public ComputerBoardGraphics(BoardData boardData, int x, int y) {
         super(boardData, x, y);
 
         addMouseMotionListener(new MouseAdapter() {
+            /**
+             *
+             * @param mouseEvent
+             */
             @Override
-            public void mouseMoved(MouseEvent e) {
-                crosshairPoint = e.getPoint();
+            public void mouseMoved(MouseEvent mouseEvent) {
+                crosshairPoint = mouseEvent.getPoint();
                 repaint();
             }
         });
 
         addMouseListener(new MouseAdapter() {
+            /**
+             *
+             * @param mouseEvent
+             */
             @Override
-            public void mouseExited(MouseEvent e) {
+            public void mouseExited(MouseEvent mouseEvent) {
                 crosshairPoint = null;
                 repaint();
             }
         });
     }
 
+    /**
+     *
+     * @param graphics2D
+     */
     @Override
     protected void drawShips(Graphics2D graphics2D) {
         for (Ship ship : boardData.getShips()) {
@@ -43,6 +61,10 @@ public class ComputerBoardGraphics extends BoardGraphics {
         }
     }
 
+    /**
+     *
+     * @param graphics
+     */
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);

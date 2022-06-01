@@ -1,3 +1,11 @@
+/*
+ * Main.java
+ *
+ * Daniel Alp
+ * ICS4U1
+ * 2022-06-08
+ */
+
 package battleship.controller;
 
 import battleship.ai.BattleshipAI;
@@ -22,9 +30,15 @@ public class Controller {
     private Type userCurShipType = null;
     private BattleshipAI battleshipAI = new BattleshipAI();
 
-
+    /**
+     *
+     */
     public Controller() {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
+            /**
+             *
+             * @param mouseEvent
+             */
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 if (!SwingUtilities.isLeftMouseButton(mouseEvent)) {
@@ -37,7 +51,7 @@ public class Controller {
                 if (!userBoardData.isValidPlacement(userCurShipType.getLength(), userCurShipOrientation, coordinate)) {
                     return;
                 }
-                userBoardData.placeShip(new Ship(userCurShipType, userCurShipOrientation, coordinate));
+                userBoardData.getShips().add(new Ship(userCurShipType, userCurShipOrientation, coordinate));
                 userCurShipType = null;
                 userCurShipOrientation = null;
                 frame.repaint();
@@ -46,6 +60,10 @@ public class Controller {
         });
         for (JRadioButton typeOption : frame.getSetupPanel().getTypeOptions()) {
             typeOption.addActionListener(new ActionListener() {
+                /**
+                 *
+                 * @param actionEvent
+                 */
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     userCurShipType = Type.valueOf(typeOption.getName());
@@ -54,6 +72,10 @@ public class Controller {
         }
         for (JRadioButton orientationOption : frame.getSetupPanel().getOrientationOptions()) {
             orientationOption.addActionListener(new ActionListener() {
+                /**
+                 *
+                 * @param actionEvent
+                 */
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
                     userCurShipOrientation = Orientation.valueOf(orientationOption.getName());
@@ -61,6 +83,10 @@ public class Controller {
             });
         }
         frame.getSetupPanel().getResetButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 userBoardData.reset();
@@ -68,13 +94,17 @@ public class Controller {
             }
         });
         frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
+            /**
+             *
+             * @param mouseEvent
+             */
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
                 if (!SwingUtilities.isLeftMouseButton(mouseEvent)) {
                     return;
                 }
                 Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
-                if (!computerBoardData.isValidShot(userTargetCoordinates)) {
+                if (computerBoardData.getEnemyShots()[userTargetCoordinates.getRow()][userTargetCoordinates.getColumn()]) {
                     return;
                 }
                 if (GameState.getState() == GameState.MATCH) {
@@ -87,6 +117,10 @@ public class Controller {
             }
         });
         frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 reset();
@@ -95,6 +129,10 @@ public class Controller {
             }
         });
         frame.getInstructionPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 reset();
@@ -103,6 +141,10 @@ public class Controller {
             }
         });
         frame.getSetupPanel().getMatchStartButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 if (userBoardData.isReady()) {
@@ -113,6 +155,9 @@ public class Controller {
         });
     }
 
+    /**
+     *
+     */
     private void reset() {
         userBoardData.reset();
         computerBoardData.reset();
@@ -122,6 +167,11 @@ public class Controller {
         }
     }
 
+    /**
+     *
+     * @param type
+     * @param orientation
+     */
     private void placeComputerShip(Type type, Orientation orientation) {
         ArrayList<Coordinate> validCoordinates = new ArrayList<>();
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
@@ -133,9 +183,14 @@ public class Controller {
             }
         }
         Collections.shuffle(validCoordinates);
-        computerBoardData.placeShip(new Ship(type, orientation, validCoordinates.get(0)));
+        computerBoardData.getShips().add(new Ship(type, orientation, validCoordinates.get(0)));
     }
 
+    /**
+     *
+     * @param targetBoardData
+     * @param targetCoordinates
+     */
     private void nextMove(BoardData targetBoardData, Coordinate targetCoordinates) {
         if (targetBoardData == userBoardData) {
             battleshipAI.update(targetBoardData.getFiredAt(targetCoordinates), targetBoardData.getTypeSunk());

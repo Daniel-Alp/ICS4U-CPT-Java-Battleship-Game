@@ -35,8 +35,12 @@ public class Frame extends JFrame {
 
         menuPanel = new MenuPanel();
         menuPanel.getInstructionButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 showPanel("instruction");
             }
         });
@@ -45,8 +49,12 @@ public class Frame extends JFrame {
 
         instructionPanel = new InstructionPanel();
         instructionPanel.getMatchSetupButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 showPanel("setup");
             }
         });
@@ -55,8 +63,12 @@ public class Frame extends JFrame {
 
         setupPanel = new SetupPanel(userBoardData);
         setupPanel.getInstructionButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 confirmExit("setup");
             }
         });
@@ -65,8 +77,12 @@ public class Frame extends JFrame {
 
         matchPanel = new MatchPanel(userBoardData, computerBoardData);
         matchPanel.getQuitButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 confirmExit("match");
             }
         });
@@ -76,8 +92,12 @@ public class Frame extends JFrame {
 
         resultPanel = new ResultPanel(userBoardData, stats);
         resultPanel.getMenuButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
-            public void actionPerformed(ActionEvent e) {
+            public void actionPerformed(ActionEvent actionEvent) {
                 showPanel("menu");
             }
         });
@@ -94,8 +114,12 @@ public class Frame extends JFrame {
     public void showPanel(String panelName) {
         if (panelName.equals("result")) {
             Timer delayTimer = new Timer(2000, new ActionListener() {
+                /**
+                 *
+                 * @param actionEvent
+                 */
                 @Override
-                public void actionPerformed(ActionEvent e) {
+                public void actionPerformed(ActionEvent actionEvent) {
                     cardLayout.show(cardPanel, "result");
                     resultPanel.showWinner();
                 }
@@ -107,6 +131,10 @@ public class Frame extends JFrame {
         }
     }
 
+    /**
+     *
+     * @param currentPanel
+     */
     public void confirmExit(String currentPanel) {
         int response = JOptionPane.showConfirmDialog(
                 Frame.this,
@@ -121,18 +149,34 @@ public class Frame extends JFrame {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public MenuPanel getMenuPanel() {
         return menuPanel;
     }
 
+    /**
+     *
+     * @return
+     */
     public InstructionPanel getInstructionPanel() {
         return instructionPanel;
     }
 
+    /**
+     *
+     * @return
+     */
     public SetupPanel getSetupPanel() {
         return setupPanel;
     }
 
+    /**
+     *
+     * @return
+     */
     public MatchPanel getMatchPanel() {
         return matchPanel;
     }

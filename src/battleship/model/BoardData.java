@@ -1,13 +1,24 @@
+/*
+ * Main.java
+ *
+ * Daniel Alp
+ * ICS4U1
+ * 2022-06-08
+ */
+
 package battleship.model;
 
 import java.util.ArrayList;
 
 public class BoardData {
     public static final int BOARD_SIZE = 10;
-    private final ArrayList<Ship> ships = new ArrayList<>();
-    private final boolean[][] enemyShots = new boolean[BOARD_SIZE][BOARD_SIZE];
+    private ArrayList<Ship> ships = new ArrayList<>();
+    private boolean[][] enemyShots = new boolean[BOARD_SIZE][BOARD_SIZE];
     private Type typeSunk;
 
+    /**
+     *
+     */
     public void reset() {
         ships.clear();
         for (int row = 0; row < BOARD_SIZE; row++) {
@@ -17,6 +28,13 @@ public class BoardData {
         }
     }
 
+    /**
+     *
+     * @param length
+     * @param orientation
+     * @param coordinate
+     * @return
+     */
     public boolean isValidPlacement(int length, Orientation orientation, Coordinate coordinate) {
         if (orientation == Orientation.HORIZONTAL && coordinate.getColumn() + length > BOARD_SIZE ||
                 orientation == Orientation.VERTICAL && coordinate.getRow() + length > BOARD_SIZE) {
@@ -38,16 +56,8 @@ public class BoardData {
         return true;
     }
 
-    public void placeShip(Ship ship) {
-        ships.add(ship);
-    }
-
     public boolean isReady() {
         return ships.size() == Type.values().length;
-    }
-
-    public boolean isValidShot(Coordinate target) {
-        return !enemyShots[target.getRow()][target.getColumn()];
     }
 
     public boolean getFiredAt(Coordinate targetCoordinates) {

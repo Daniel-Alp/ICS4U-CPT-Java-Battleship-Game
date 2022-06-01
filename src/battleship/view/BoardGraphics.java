@@ -1,3 +1,11 @@
+/*
+ * BoardGraphics.java
+ *
+ * Daniel Alp
+ * ICS4U1
+ * 2022-06-08
+ */
+
 package battleship.view;
 
 import battleship.model.BoardData;
@@ -13,6 +21,12 @@ public abstract class BoardGraphics extends JPanel {
 
     protected BoardData boardData;
 
+    /**
+     *
+     * @param boardData
+     * @param x
+     * @param y
+     */
     public BoardGraphics(BoardData boardData, int x, int y) {
         this.boardData = boardData;
         setBounds(x, y, BoardData.BOARD_SIZE * TILE_SIZE, BoardData.BOARD_SIZE * TILE_SIZE);
@@ -21,10 +35,19 @@ public abstract class BoardGraphics extends JPanel {
         setBorder(BorderFactory.createLineBorder(new Color(95, 87, 79), 5));
     }
 
+    /**
+     *
+     * @param point
+     * @return
+     */
     public static Coordinate pointToBoardCoordinates(Point point) {
         return new Coordinate(point.y / BoardGraphics.TILE_SIZE, point.x / BoardGraphics.TILE_SIZE);
     }
 
+    /**
+     *
+     * @param graphics
+     */
     @Override
     public void paint(Graphics graphics) {
         super.paint(graphics);
@@ -36,6 +59,10 @@ public abstract class BoardGraphics extends JPanel {
         }
     }
 
+    /**
+     *
+     * @param graphics2D
+     */
     private void drawGridlines(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(7));
         graphics2D.setColor(new Color(95, 87, 79));
@@ -45,6 +72,10 @@ public abstract class BoardGraphics extends JPanel {
         }
     }
 
+    /**
+     *
+     * @param graphics2D
+     */
     protected void drawShots(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(10));
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);

@@ -1,3 +1,11 @@
+/*
+ * Main.java
+ *
+ * Daniel Alp
+ * ICS4U1
+ * 2022-06-08
+ */
+
 package battleship.ai;
 
 import battleship.model.BoardData;
@@ -7,13 +15,18 @@ import battleship.model.Type;
 import java.util.*;
 
 public class BattleshipAI {
-    private final boolean[][] validShots = new boolean[BoardData.BOARD_SIZE][BoardData.BOARD_SIZE];
-    private final Stack<Coordinate> targetingShots = new Stack<>();
-    private final HashSet<Type> typesRemaining = new HashSet<>();
+    private boolean[][] validShots = new boolean[BoardData.BOARD_SIZE][BoardData.BOARD_SIZE];
+    private int[][] adjacencyArray = new int[][]{{0,1}, {1,0}, {0,-1}, {-1,0}};
+    private Stack<Coordinate> targetingShots = new Stack<>();
+    private HashSet<Type> typesRemaining = new HashSet<>();
     private Type shortestTypeRemaining;
     private Coordinate prevShot;
-    private final Random random = new Random();
+    private Random random = new Random();
 
+
+    /**
+     *
+     */
     public void reset() {
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
             for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
@@ -26,11 +39,16 @@ public class BattleshipAI {
         shortestTypeRemaining = Type.DESTROYER;
     }
 
+    /**
+     *
+     * @param shotHit
+     * @param typeSunk
+     */
     public void update(boolean shotHit, Type typeSunk) {
         if (shotHit) {
-            for (Direction dir : Direction.values()) {
-                Coordinate adjCoordinate = new Coordinate(prevShot.getRow() + dir.getRowChange(), prevShot.getColumn() + dir.getColumnChange());
-                if (adjCoordinate.getRow() < 0 || adjCoordinate.getRow() >= 10 || adjCoordinate.getColumn() < 0 || adjCoordinate.getColumn() >= 10) {
+            for (int[] adjacent : adjacencyArray) {
+                Coordinate adjCoordinate = new Coordinate(prevShot.getRow() + adjacent[0], prevShot.getColumn() + adjacent[1]);
+                if (adjCoordinate.getRow() < 0 || adjCoordinate.getRow() >= BoardData.BOARD_SIZE || adjCoordinate.getColumn() < 0 || adjCoordinate.getColumn() >= BoardData.BOARD_SIZE) {
                     continue;
                 }
                 if (!validShots[adjCoordinate.getRow()][adjCoordinate.getColumn()]) {
@@ -50,6 +68,10 @@ public class BattleshipAI {
         }
     }
 
+    /**
+     *
+     * @return
+     */
     public Coordinate getShot() {
         Coordinate shot = null;
         while (targetingShots.size() > 0) {

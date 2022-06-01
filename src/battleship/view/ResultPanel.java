@@ -1,3 +1,10 @@
+/*
+ *
+ *
+ *
+ *
+ */
+
 package battleship.view;
 
 import battleship.model.BoardData;
@@ -7,13 +14,18 @@ import javax.swing.*;
 import java.awt.*;
 
 public class ResultPanel extends JPanel {
-    private final BoardData userBoardData;
-    private final Stats stats;
-    private final JLabel winStats = new JLabel();
-    private final JLabel winner = new JLabel();
-    private final JButton menuButton = new JButton("To Menu");
+    private BoardData userBoardData;
+    private Stats stats;
+    private JLabel winStats = new JLabel();
+    private JLabel winner = new JLabel();
+    private JButton menuButton = new JButton("To Menu");
 
-    ResultPanel(BoardData userBoardData, Stats stats) {
+    /**
+     *
+     * @param userBoardData
+     * @param stats
+     */
+    public ResultPanel(BoardData userBoardData, Stats stats) {
         setBounds(0, 0, 1280, 720);
         setBackground(new Color(194, 195, 199));
         setLayout(null);
@@ -33,6 +45,9 @@ public class ResultPanel extends JPanel {
         this.stats = stats;
     }
 
+    /**
+     *
+     */
     public void showWinner() {
         if (userBoardData.fleetSunk()) {
             winner.setText("COMPUTER WON");
@@ -42,6 +57,10 @@ public class ResultPanel extends JPanel {
         winStats.setText(String.format("<html>USER WINS: %d<br/>COMPUTER WINS: %d<html>", stats.getUserWins(), stats.getComputerWins()));
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getMenuButton() {
         return menuButton;
     }

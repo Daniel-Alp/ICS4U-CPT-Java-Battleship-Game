@@ -1,3 +1,10 @@
+/*
+ *
+ *
+ *
+ *
+ */
+
 package battleship.view;
 
 import javax.swing.*;
@@ -15,6 +22,9 @@ public class InstructionPanel extends JPanel {
                     "Players take turns firing at the opponent's board, and it is revealed whether the shot was a hit or miss. If a ship is sunk, the opponent reveals which ship was sunk.<html>"
     );
 
+    /**
+     *
+     */
     public InstructionPanel() {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
@@ -27,6 +37,10 @@ public class InstructionPanel extends JPanel {
         add(instructionsLabel);
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getMatchSetupButton() {
         return matchSetupButton;
     }

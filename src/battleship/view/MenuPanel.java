@@ -1,14 +1,24 @@
+/*
+ *
+ *
+ *
+ *
+ */
+
 package battleship.view;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class MenuPanel extends JPanel {
-    private final JLabel titleLabel = new JLabel();
-    private final JButton matchSetupButton = new JButton("PLAY GAME");
-    private final JButton instructionButton = new JButton("INSTRUCTIONS");
+    private JLabel titleLabel = new JLabel();
+    private JButton matchSetupButton = new JButton("PLAY GAME");
+    private JButton instructionButton = new JButton("INSTRUCTIONS");
     private ImageIcon backgroundIcon = new ImageIcon("src\\res\\background.png");
 
+    /**
+     *
+     */
     public MenuPanel() {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
@@ -25,15 +35,27 @@ public class MenuPanel extends JPanel {
         add(instructionButton);
     }
 
+    /**
+     *
+     * @param graphics
+     */
     @Override
     public void paintComponent(Graphics graphics) {
         backgroundIcon.paintIcon(this, graphics, 0, 0);
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getMatchSetupButton() {
         return matchSetupButton;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getInstructionButton() {
         return instructionButton;
     }

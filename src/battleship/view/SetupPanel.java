@@ -1,3 +1,10 @@
+/*
+ *
+ *
+ *
+ *
+ */
+
 package battleship.view;
 
 import battleship.model.BoardData;
@@ -10,15 +17,19 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class SetupPanel extends JPanel {
-    private final UserBoardGraphics userBoardGraphics;
-    private final JRadioButton[] typeOptions = new JRadioButton[5];
-    private final JRadioButton[] orientationOptions = new JRadioButton[2];
-    private final ButtonGroup typeButtonGroup = new ButtonGroup();
-    private final ButtonGroup orientationButtonGroup = new ButtonGroup();
-    private final JButton resetButton = new JButton("Reset Board");
-    private final JButton matchStartButton = new JButton("Start Match");
-    private final JButton instructionButton = new JButton("Instructions");
+    private UserBoardGraphics userBoardGraphics;
+    private JRadioButton[] typeOptions = new JRadioButton[5];
+    private JRadioButton[] orientationOptions = new JRadioButton[2];
+    private ButtonGroup typeButtonGroup = new ButtonGroup();
+    private ButtonGroup orientationButtonGroup = new ButtonGroup();
+    private JButton resetButton = new JButton("Reset Board");
+    private JButton matchStartButton = new JButton("Start Match");
+    private JButton instructionButton = new JButton("Instructions");
 
+    /**
+     *
+     * @param userBoardData
+     */
     public SetupPanel(BoardData userBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
@@ -44,6 +55,10 @@ public class SetupPanel extends JPanel {
 
         resetButton.setBounds(60, 575, 120, 60);
         resetButton.addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 resetTypeOptions();
@@ -60,6 +75,9 @@ public class SetupPanel extends JPanel {
         add(instructionButton);
     }
 
+    /**
+     *
+     */
     public void resetTypeOptions() {
         for (JRadioButton option : typeOptions) {
             option.setEnabled(true);
@@ -72,32 +90,59 @@ public class SetupPanel extends JPanel {
         orientationButtonGroup.clearSelection();
     }
 
+    /**
+     *
+     */
     public void updateTypeOptions() {
         typeButtonGroup.getSelection().setEnabled(false);
         typeButtonGroup.clearSelection();
         orientationButtonGroup.clearSelection();
     }
 
+    /**
+     *
+     * @return
+     */
     public UserBoardGraphics getUserBoardGraphics() {
         return userBoardGraphics;
     }
 
+    /**
+     *
+     * @return
+     */
     public JRadioButton[] getTypeOptions() {
         return typeOptions;
     }
 
+    /**
+     *
+     * @return
+     */
     public JRadioButton[] getOrientationOptions() {
         return orientationOptions;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getResetButton() {
         return resetButton;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getMatchStartButton() {
         return matchStartButton;
     }
 
+    /**
+     *
+     * @return
+     */
     public JButton getInstructionButton() {
         return instructionButton;
     }
