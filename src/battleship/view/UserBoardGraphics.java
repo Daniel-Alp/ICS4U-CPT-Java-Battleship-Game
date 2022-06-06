@@ -7,10 +7,23 @@ import javax.swing.*;
 import java.awt.*;
 
 public class UserBoardGraphics extends BoardGraphics {
+
+    /**
+     *
+     *
+     * @param boardData -
+     * @param x - Starting x
+     * @param y -
+     */
     public UserBoardGraphics(BoardData boardData, int x, int y) {
         super(boardData, x, y);
     }
 
+    /**
+     *
+     *
+     * @param graphics2D
+     */
     @Override
     public void drawShips(Graphics2D graphics2D) {
         for (Ship ship : boardData.getShips()) {

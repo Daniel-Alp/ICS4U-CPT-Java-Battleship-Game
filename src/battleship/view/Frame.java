@@ -93,7 +93,6 @@ public class Frame extends JFrame {
         cardLayout.addLayoutComponent(matchPanel, "match");
         cardPanel.add(matchPanel);
 
-
         resultPanel = new ResultPanel(userBoardData, stats);
         resultPanel.getMenuButton().addActionListener(new ActionListener() {
             /**
@@ -140,16 +139,19 @@ public class Frame extends JFrame {
      * @param currentPanel
      */
     public void confirmExit(String currentPanel) {
+        //
         int response = JOptionPane.showConfirmDialog(
                 Frame.this,
                 "Are you sure you want to exit " + currentPanel + "? Progress will not be saved.",
                 "exitMatch",
                 JOptionPane.YES_NO_OPTION);
-        if (response == JOptionPane.YES_OPTION && currentPanel.equals("setup")) {
+        if (response == JOptionPane.YES_OPTION) {
+            if (currentPanel.equals("setup")) { //
+                showPanel("else");
+            } else if (currentPanel.equals("match")) {
+                showPanel("menu");
+            }
             showPanel("instruction");
-        }
-        else if (response == JOptionPane.YES_OPTION && currentPanel.equals("match")) {
-            showPanel("menu");
         }
     }
 

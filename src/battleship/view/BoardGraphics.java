@@ -78,21 +78,29 @@ public abstract class BoardGraphics extends JPanel {
      */
     protected void drawShots(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(10));
+        // Turns on antialiasing to render smoother shapes.
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        /*
+         *
+         */
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
             for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
                 if (boardData.getEnemyShots()[row][column]) {
                     boolean shipHit = false;
+                    /*
+                     *
+                     */
                     for (Ship ship : boardData.getShips()) {
                         if (ship.containsCoordinates(new Coordinate(row, column))) {
                             graphics2D.setColor(new Color(255, 0, 77));
+                            //
                             graphics2D.drawLine(column * TILE_SIZE + 20, row * TILE_SIZE + 20, (column + 1) * TILE_SIZE - 20, (row + 1) * TILE_SIZE - 20);
                             graphics2D.drawLine((column + 1) * TILE_SIZE - 20, row * TILE_SIZE + 20, column * TILE_SIZE + 20, (row + 1) * TILE_SIZE - 20);
                             shipHit = true;
                             break;
                         }
                     }
-                    if (!shipHit) {
+                    if (!shipHit) { //
                         graphics2D.setColor(new Color(255, 241, 232));
                         graphics2D.fillOval(column * TILE_SIZE + 20, row * TILE_SIZE + 20, TILE_SIZE - 40, TILE_SIZE - 40);
                     }
@@ -101,5 +109,10 @@ public abstract class BoardGraphics extends JPanel {
         }
     }
 
+    /**
+     *
+     *
+     * @param graphics2D
+     */
     protected abstract void drawShips(Graphics2D graphics2D);
 }

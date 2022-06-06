@@ -19,7 +19,7 @@ public class StatTracker {
      */
     public StatTracker() {
         /*
-         *
+         * If stats file
          */
         if (!statsFile.exists()) {
             try {
@@ -30,7 +30,7 @@ public class StatTracker {
             stats = new Stats();
         } else {
             /*
-             *
+             * Uses resource management to automatically close object input stream after
              */
             try (ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(statsFile))) {
                 stats = (Stats) objectInputStream.readObject();
@@ -44,8 +44,9 @@ public class StatTracker {
     }
 
     /**
+     * Returns the game statistics
      *
-     * @return
+     * @return - the game statistics
      */
     public Stats getStats() {
         return stats;
@@ -56,7 +57,7 @@ public class StatTracker {
      */
     public void updateStatsFile() {
         /*
-         *
+         * Uses resource management to automatically try to close output stream after using it.
          */
         try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(statsFile))) {
             objectOutputStream.writeObject(stats);

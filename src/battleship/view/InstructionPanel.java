@@ -40,6 +40,7 @@ public class InstructionPanel extends JPanel {
     }
 
     /**
+     * Paints the background image. Method is called upon object initialization.
      *
      * @param graphics
      */

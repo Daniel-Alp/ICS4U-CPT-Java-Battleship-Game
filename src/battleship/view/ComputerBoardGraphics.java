@@ -14,9 +14,10 @@ public class ComputerBoardGraphics extends BoardGraphics {
 
     /**
      *
-     * @param boardData
-     * @param x
-     * @param y
+     *
+     * @param boardData - board data, that is data-bound for rendering graphics.
+     * @param x - x pos of top left corner of board
+     * @param y - y pos of top left corner of board
      */
     public ComputerBoardGraphics(BoardData boardData, int x, int y) {
         super(boardData, x, y);
@@ -24,7 +25,7 @@ public class ComputerBoardGraphics extends BoardGraphics {
         addMouseMotionListener(new MouseAdapter() {
             /**
              *
-             * @param mouseEvent
+             * @param mouseEvent - event that is generated when mouse is moved inside the board
              */
             @Override
             public void mouseMoved(MouseEvent mouseEvent) {
@@ -36,7 +37,7 @@ public class ComputerBoardGraphics extends BoardGraphics {
         addMouseListener(new MouseAdapter() {
             /**
              *
-             * @param mouseEvent
+             * @param mouseEvent - event that is generated when mouse leaves the bounds of the board
              */
             @Override
             public void mouseExited(MouseEvent mouseEvent) {
@@ -48,12 +49,14 @@ public class ComputerBoardGraphics extends BoardGraphics {
 
     /**
      *
-     * @param graphics2D
+     *
+     *
+     * @param graphics2D -
      */
     @Override
     protected void drawShips(Graphics2D graphics2D) {
         for (Ship ship : boardData.getShips()) {
-            if (!ship.isSunk()) {
+            if (!ship.isSunk()) { // Does not draw ship if it is not sunk yet
                 continue;
             }
             String shipImagePath = String.format("src\\res\\%s_%s.png", ship.getType(), ship.getOrientation()).toLowerCase();;
@@ -63,12 +66,14 @@ public class ComputerBoardGraphics extends BoardGraphics {
 
     /**
      *
-     * @param graphics
+     *
+     * @param graphics -
      */
     @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
+        super.paint(graphics); // Calls super class method to clear all previously painted graphics.
         if (crosshairPoint != null) {
+            // paints crosshair icon, offs
             crosshairIcon.paintIcon(this, graphics, crosshairPoint.x - 24, crosshairPoint.y - 24);
         }
     }

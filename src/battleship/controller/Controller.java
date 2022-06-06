@@ -1,6 +1,10 @@
 /*
- * Main.java
- *
+ * Controller.java
+ * Class that initializes the model and view, and connects them. Controls data
+ * and state of the game. Any events created in the GUI that update the game
+ * data or state are observed by the controller. Uses observer pattern. Uses
+ * dependency injection design pattern to pass model off to the view for data
+ * binding.
  * Daniel Alp
  * ICS4U1
  * 2022-06-08
@@ -24,26 +28,55 @@ public class Controller {
     private BoardData computerBoardData = new BoardData();
     private StatTracker statTracker = new StatTracker();
     private Frame frame = new Frame(userBoardData, computerBoardData, statTracker.getStats());
-    private Orientation userCurShipOrientation = null;
-    private Type userCurShipType = null;
+    private Orientation userCurShipOrientation = null; // Orientation of the current ship being placed by user
+    private Type userCurShipType = null; // Type of current ship being placed by user.
     private BattleshipAI battleshipAI = new BattleshipAI();
+
+    /**
+     * I
+     */
+    public Controller() {
+        addMenuPanelListeners();
+        addInstructionPanelListeners();
+        addSetupPanelListeners();
+        addSetupPanelListeners();
+        addMatchPanelListeners();
+    }
 
     /**
      *
      */
-    public Controller() {
+    private void addMenuPanelListeners() {
+        frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent -
+             */
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                reset();
+                frame.getSetupPanel().resetTypeOptions();
+                frame.showPanel("setup");
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    private void addSetupPanelListeners() {
         frame.getSetupPanel().getUserBoardGraphics().addMouseListener(new MouseAdapter() {
             /**
              *
-             * @param mouseEvent
+             * @param mouseEvent - mouse event that is generated when user clicks on the user board.
              */
             @Override
             public void mousePressed(MouseEvent mouseEvent) {
-                if (!SwingUtilities.isLeftMouseButton(mouseEvent)) {
+                if (!SwingUtilities.isLeftMouseButton(mouseEvent)) { // Validates mouse event
                     return;
                 }
                 Coordinate coordinate = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
-                if (userCurShipType == null || userCurShipOrientation == null) {
+                if (userCurShipType == null || userCurShipOrientation == null) { // Checks whether ship options are selected
                     return;
                 }
                 if (!userBoardData.isValidPlacement(userCurShipType.getLength(), userCurShipOrientation, coordinate)) {
@@ -56,11 +89,15 @@ public class Controller {
                 userCurShipOrientation = null;
             }
         });
+
+        /*
+         * Loops through every type option,
+         */
         for (JRadioButton typeOption : frame.getSetupPanel().getTypeOptions()) {
             typeOption.addActionListener(new ActionListener() {
                 /**
                  *
-                 * @param actionEvent
+                 * @param actionEvent - event that is generated when the button is interacted with
                  */
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -68,11 +105,15 @@ public class Controller {
                 }
             });
         }
+
+        /*
+         *
+         */
         for (JRadioButton orientationOption : frame.getSetupPanel().getOrientationOptions()) {
             orientationOption.addActionListener(new ActionListener() {
                 /**
                  *
-                 * @param actionEvent
+                 * @param actionEvent - event that is generated when the button is interacted with
                  */
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -80,10 +121,11 @@ public class Controller {
                 }
             });
         }
+
         frame.getSetupPanel().getResetButton().addActionListener(new ActionListener() {
             /**
              *
-             * @param actionEvent
+             * @param actionEvent - event that is generated when the button is interacted with
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -91,57 +133,11 @@ public class Controller {
                 frame.repaint();
             }
         });
-        frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
-            /**
-             *
-             * @param mouseEvent
-             */
-            @Override
-            public void mousePressed(MouseEvent mouseEvent) {
-                if (!SwingUtilities.isLeftMouseButton(mouseEvent)) {
-                    return;
-                }
-                Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
-                if (computerBoardData.getEnemyShots()[userTargetCoordinates.getRow()][userTargetCoordinates.getColumn()]) {
-                    return;
-                }
-                if (GameState.getState() == GameState.MATCH) {
-                    nextMove(computerBoardData, userTargetCoordinates);
-                }
-                if (GameState.getState() == GameState.MATCH) {
-                    nextMove(userBoardData, battleshipAI.getShot());
-                }
-                frame.repaint();
-            }
-        });
-        frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
-            /**
-             *
-             * @param actionEvent
-             */
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                reset();
-                frame.getSetupPanel().resetTypeOptions();
-                frame.showPanel("setup");
-            }
-        });
-        frame.getInstructionPanel().getMatchSetupButton().addActionListener(new ActionListener() {
-            /**
-             *
-             * @param actionEvent
-             */
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                reset();
-                frame.getSetupPanel().resetTypeOptions();
-                frame.showPanel("setup");
-            }
-        });
+
         frame.getSetupPanel().getMatchStartButton().addActionListener(new ActionListener() {
             /**
              *
-             * @param actionEvent
+             * @param actionEvent - event that is generated when the button is interacted with
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -155,7 +151,7 @@ public class Controller {
         frame.getSetupPanel().getAutoButton().addActionListener(new ActionListener() {
             /**
              *
-             * @param actionEvent
+             * @param actionEvent - event that is generated when the button is interacted with
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
@@ -163,6 +159,53 @@ public class Controller {
                 for (Type type : Type.values()) {
                     userBoardData.randomlyPlaceShip(type, Orientation.getRandomOrientation());
                     frame.getSetupPanel().updateTypeOptions(type);
+                }
+                frame.repaint();
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    private void addInstructionPanelListeners() {
+        frame.getInstructionPanel().getMatchSetupButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent - event that is generated when button is interacted with.
+             */
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                reset();
+                frame.getSetupPanel().resetTypeOptions();
+                frame.showPanel("setup");
+            }
+        });
+    }
+
+    /**
+     *
+     */
+    private void addMatchPanelListeners() {
+        frame.getMatchPanel().getComputerBoardGraphics().addMouseListener(new MouseAdapter() {
+            /**
+             *
+             * @param mouseEvent - event that is generated when user clicks on the computer board.
+             */
+            @Override
+            public void mousePressed(MouseEvent mouseEvent) {
+                if (!SwingUtilities.isLeftMouseButton(mouseEvent)) { // Validates mouse event
+                    return;
+                }
+                Coordinate userTargetCoordinates = BoardGraphics.pointToBoardCoordinates(mouseEvent.getPoint());
+                if (computerBoardData.getEnemyShots()[userTargetCoordinates.getRow()][userTargetCoordinates.getColumn()]) {
+                    return;
+                }
+                if (GameState.getState() == GameState.MATCH) {
+                    nextMove(computerBoardData, userTargetCoordinates);
+                }
+                if (GameState.getState() == GameState.MATCH) {
+                    nextMove(userBoardData, battleshipAI.getShot());
                 }
                 frame.repaint();
             }
@@ -183,23 +226,26 @@ public class Controller {
 
     /**
      *
-     * @param targetBoardData
-     * @param targetCoordinates
+     *
+     * @param targetBoardData - board data that is being fired at
+     * @param targetCoordinates - coordinates that the board is being fired at
      */
     private void nextMove(BoardData targetBoardData, Coordinate targetCoordinates) {
+        // Updates battleship AI if it is currently the AI's turn.
         if (targetBoardData == userBoardData) {
             battleshipAI.update(targetBoardData.getFiredAt(targetCoordinates), targetBoardData.getTypeSunk());
         } else {
             targetBoardData.getFiredAt(targetCoordinates);
         }
+
         if (targetBoardData.fleetSunk()) {
             GameState.setState(GameState.RESULT);
-            if (targetBoardData == userBoardData) {
+            if (targetBoardData == userBoardData) { // Updates stats based on which player won
                 statTracker.getStats().increaseComputerWins();
             } else {
                 statTracker.getStats().increaseUserWins();
             }
-            statTracker.updateStatsFile();
+            statTracker.updateStatsFile(); // Updates stats file after every game, preventing
             frame.showPanel("result");
         }
     }

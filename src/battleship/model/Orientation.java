@@ -1,6 +1,6 @@
 /*
  * Orientation.java
- *
+ * Enum used for the orientation a ship.
  * Daniel Alp
  * ICS4U1
  * 2022-06-08
@@ -13,8 +13,9 @@ public enum Orientation {
     HORIZONTAL, VERTICAL;
 
     /**
+     * Returns a random orientation
      *
-     * @return
+     * @return - a random item from the enum's values
      */
     public static Orientation getRandomOrientation() {
         Random random = new Random();

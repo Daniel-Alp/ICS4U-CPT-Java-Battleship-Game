@@ -18,8 +18,8 @@ import java.awt.event.ActionListener;
 
 public class SetupPanel extends JPanel {
     private UserBoardGraphics userBoardGraphics;
-    private JRadioButton[] typeOptions = new JRadioButton[5];
-    private JRadioButton[] orientationOptions = new JRadioButton[2];
+    private JRadioButton[] typeOptions = new JRadioButton[Type.values().length];
+    private JRadioButton[] orientationOptions = new JRadioButton[Orientation.values().length];
     private ButtonGroup typeButtonGroup = new ButtonGroup();
     private ButtonGroup orientationButtonGroup = new ButtonGroup();
     private JButton resetButton = new JButton("Reset Board");
@@ -36,26 +36,36 @@ public class SetupPanel extends JPanel {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
 
+        /*
+         * Creates
+         */
         for (int option = 0; option < typeOptions.length; option++) {
-            typeOptions[option] = new JRadioButton(Type.values()[option].toString());
-            typeOptions[option].setName(Type.values()[option].toString());
-            typeOptions[option].setBounds(60, 85 + option * 75, 300, 15);
-            typeOptions[option].setOpaque(false);
-            typeOptions[option].setForeground(Color.WHITE);
-            add(typeOptions[option]);
-            typeButtonGroup.add(typeOptions[option]);
+            JRadioButton typeOption = new JRadioButton(Type.values()[option].toString());
+            typeOption.setName(Type.values()[option].toString());
+            typeOption.setBounds(60, 85 + option * 75, 300, 15); // Determines Y position using
+            typeOption.setOpaque(false);
+            typeOption.setForeground(Color.WHITE);
+            typeOptions[option] = typeOption;
+            add(typeOption);
+            // Adds option to respective button group, preventing user from selecting multiple options
+            typeButtonGroup.add(typeOption);
             JLabel typeLabel = new JLabel();
             typeLabel.setIcon(new ImageIcon(String.format("src\\res\\%s_%s.png", Type.values()[option].toString().toLowerCase(), "horizontal")));
             typeLabel.setBounds(60, 100 + option * 75, 300, 60);
             add(typeLabel);
+
         }
 
+        /*
+         *
+         */
         for (int option = 0; option < orientationOptions.length; option++) {
             orientationOptions[option] = new JRadioButton(Orientation.values()[option].toString());
             orientationOptions[option].setName(Orientation.values()[option].toString());
             orientationOptions[option].setBounds(360, 85 + option * 75, 120, 25);
             orientationOptions[option].setOpaque(false);
             orientationOptions[option].setForeground(Color.WHITE);
+            // Adds option to respective button group, preventing user from selecting multiple options
             orientationButtonGroup.add(orientationOptions[option]);
             add(orientationOptions[option]);
         }
@@ -90,7 +100,8 @@ public class SetupPanel extends JPanel {
 
     /**
      *
-     * @param graphics
+     *
+     * @param graphics -
      */
     @Override
     public void paintComponent(Graphics graphics) {
@@ -98,7 +109,7 @@ public class SetupPanel extends JPanel {
     }
 
     /**
-     *
+     * Re-enables all type options. Clears all previous selections.
      */
     public void resetTypeOptions() {
         for (JRadioButton option : typeOptions) {
@@ -113,7 +124,9 @@ public class SetupPanel extends JPanel {
     }
 
     /**
+     * Deselects the option associated with the type that is currently selected
      *
+     * @param typeSelected - the type that is currently selected
      */
     public void updateTypeOptions(Type typeSelected) {
         for (JRadioButton typeOption : typeOptions) {
@@ -127,6 +140,7 @@ public class SetupPanel extends JPanel {
 
     /**
      *
+     *
      * @return
      */
     public UserBoardGraphics getUserBoardGraphics() {
@@ -134,6 +148,7 @@ public class SetupPanel extends JPanel {
     }
 
     /**
+     *
      *
      * @return
      */
@@ -143,6 +158,7 @@ public class SetupPanel extends JPanel {
 
     /**
      *
+     *
      * @return
      */
     public JRadioButton[] getOrientationOptions() {
@@ -150,6 +166,7 @@ public class SetupPanel extends JPanel {
     }
 
     /**
+     *
      *
      * @return
      */
@@ -159,6 +176,7 @@ public class SetupPanel extends JPanel {
 
     /**
      *
+     *
      * @return
      */
     public JButton getMatchStartButton() {
@@ -167,6 +185,7 @@ public class SetupPanel extends JPanel {
 
     /**
      *
+     *
      * @return
      */
     public JButton getInstructionButton() {
@@ -174,6 +193,7 @@ public class SetupPanel extends JPanel {
     }
 
     /**
+     *
      *
      * @return
      */

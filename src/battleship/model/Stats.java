@@ -1,6 +1,8 @@
 /*
  * Stats.java
- *
+ * Used to track stats of the game, i.e. total user and computer wins. Implements
+ * marker interface Serializable, allowing the class to be serialized into a txt
+ * file.
  * Daniel Alp
  * ICS4U1
  * 2022-06-08
