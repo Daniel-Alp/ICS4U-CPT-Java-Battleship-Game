@@ -18,8 +18,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.Collections;
 
 public class Controller {
     private BoardData userBoardData = new BoardData();
@@ -52,10 +50,10 @@ public class Controller {
                     return;
                 }
                 userBoardData.getShips().add(new Ship(userCurShipType, userCurShipOrientation, coordinate));
+                frame.repaint();
+                frame.getSetupPanel().updateTypeOptions(userCurShipType);
                 userCurShipType = null;
                 userCurShipOrientation = null;
-                frame.repaint();
-                frame.getSetupPanel().updateTypeOptions();
             }
         });
         for (JRadioButton typeOption : frame.getSetupPanel().getTypeOptions()) {
@@ -147,10 +145,26 @@ public class Controller {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                if (userBoardData.isReady()) {
+                if (userBoardData.getShips().size() == Type.values().length) {
                     frame.showPanel("match");
                     GameState.setState(GameState.MATCH);
                 }
+            }
+        });
+
+        frame.getSetupPanel().getAutoButton().addActionListener(new ActionListener() {
+            /**
+             *
+             * @param actionEvent
+             */
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                userBoardData.reset();
+                for (Type type : Type.values()) {
+                    userBoardData.randomlyPlaceShip(type, Orientation.getRandomOrientation());
+                    frame.getSetupPanel().updateTypeOptions(type);
+                }
+                frame.repaint();
             }
         });
     }
@@ -163,27 +177,8 @@ public class Controller {
         computerBoardData.reset();
         battleshipAI.reset();
         for (Type type : Type.values()) {
-            placeComputerShip(type, Orientation.getRandomOrientation());
+            computerBoardData.randomlyPlaceShip(type, Orientation.getRandomOrientation());
         }
-    }
-
-    /**
-     *
-     * @param type
-     * @param orientation
-     */
-    private void placeComputerShip(Type type, Orientation orientation) {
-        ArrayList<Coordinate> validCoordinates = new ArrayList<>();
-        for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
-            for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
-                Coordinate coordinates = new Coordinate(row, column);
-                if (computerBoardData.isValidPlacement(type.getLength(), orientation, coordinates)) {
-                    validCoordinates.add(coordinates);
-                }
-            }
-        }
-        Collections.shuffle(validCoordinates);
-        computerBoardData.getShips().add(new Ship(type, orientation, validCoordinates.get(0)));
     }
 
     /**

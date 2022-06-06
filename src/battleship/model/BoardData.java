@@ -9,6 +9,7 @@
 package battleship.model;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class BoardData {
     public static final int BOARD_SIZE = 10;
@@ -56,10 +57,26 @@ public class BoardData {
         return true;
     }
 
-    public boolean isReady() {
-        return ships.size() == Type.values().length;
+    public void randomlyPlaceShip(Type type, Orientation orientation) {
+        ArrayList<Coordinate> validCoordinates = new ArrayList<>();
+        for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
+            for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
+                Coordinate coordinates = new Coordinate(row, column);
+                if (isValidPlacement(type.getLength(), orientation, coordinates)) {
+                    validCoordinates.add(coordinates);
+                }
+            }
+        }
+        Collections.shuffle(validCoordinates);
+        ships.add(new Ship(type, orientation, validCoordinates.get(0)));
     }
 
+
+    /**
+     *
+     * @param targetCoordinates
+     * @return
+     */
     public boolean getFiredAt(Coordinate targetCoordinates) {
         enemyShots[targetCoordinates.getRow()][targetCoordinates.getColumn()] = true;
         typeSunk = null;

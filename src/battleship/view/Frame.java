@@ -25,6 +25,10 @@ public class Frame extends JFrame {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
+        JLabel backgroundImage = new JLabel();
+        backgroundImage.setIcon(new ImageIcon("src\\res\\background.png"));
+        backgroundImage.setBounds(0, 0, 1280, 720);
+
         cardPanel.setBounds(0, 0, 1280, 720);
         cardPanel.setLayout(cardLayout);
         add(cardPanel);

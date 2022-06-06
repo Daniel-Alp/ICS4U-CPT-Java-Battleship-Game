@@ -22,7 +22,6 @@ public class MenuPanel extends JPanel {
     public MenuPanel() {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
-        setBackground(new Color(194, 195, 199));
 
         titleLabel.setBounds(298, 35, 683, 262);
         titleLabel.setIcon(new ImageIcon("src\\res\\title.png"));

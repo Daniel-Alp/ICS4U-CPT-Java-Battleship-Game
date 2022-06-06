@@ -18,6 +18,8 @@ public class MatchPanel extends JPanel {
     private JLabel userBoardLabel = new JLabel("User Board");
     private JLabel computerBoardLabel = new JLabel("Computer Board");
     private JButton quitButton = new JButton("Quit Button");
+    private ImageIcon backgroundIcon = new ImageIcon("src\\res\\background.png");
+
 
     /**
      *
@@ -27,12 +29,17 @@ public class MatchPanel extends JPanel {
     public MatchPanel(BoardData userBoardData, BoardData computerBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
-        setBackground(new Color(194, 195, 199));
 
-        userBoardLabel.setBounds(895, 25, 100, 60);
+        userBoardLabel.setBounds(675, 25, 550, 60);
+        userBoardLabel.setFont(new Font("", Font.BOLD, 25));
+        userBoardLabel.setForeground(Color.WHITE);
+        userBoardLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(userBoardLabel);
 
-        computerBoardLabel.setBounds(285, 25, 100, 60);
+        computerBoardLabel.setBounds(60, 25, 550, 60);
+        computerBoardLabel.setFont(new Font("", Font.BOLD, 25));
+        computerBoardLabel.setForeground(Color.WHITE);
+        computerBoardLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(computerBoardLabel);
 
         quitButton.setBounds(0, 0, 100, 40);
@@ -43,6 +50,15 @@ public class MatchPanel extends JPanel {
 
         computerBoardGraphics = new ComputerBoardGraphics(computerBoardData, 60, 85);
         add(computerBoardGraphics);
+    }
+
+    /**
+     *
+     * @param graphics
+     */
+    @Override
+    public void paintComponent(Graphics graphics) {
+        backgroundIcon.paintIcon(this, graphics, 0, 0);
     }
 
     /**

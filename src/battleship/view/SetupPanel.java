@@ -25,6 +25,8 @@ public class SetupPanel extends JPanel {
     private JButton resetButton = new JButton("Reset Board");
     private JButton matchStartButton = new JButton("Start Match");
     private JButton instructionButton = new JButton("Instructions");
+    private JButton autoButton = new JButton("Auto place");
+    private ImageIcon backgroundIcon = new ImageIcon("src\\res\\background.png");
 
     /**
      *
@@ -33,22 +35,27 @@ public class SetupPanel extends JPanel {
     public SetupPanel(BoardData userBoardData) {
         setBounds(0, 0, 1280, 720);
         setLayout(null);
-        setBackground(new Color(194, 195, 199));
 
         for (int option = 0; option < typeOptions.length; option++) {
             typeOptions[option] = new JRadioButton(Type.values()[option].toString());
             typeOptions[option].setName(Type.values()[option].toString());
-            typeOptions[option].setBounds(60, 85 + option * 75, 120, 25);
+            typeOptions[option].setBounds(60, 85 + option * 75, 300, 15);
             typeOptions[option].setOpaque(false);
-            typeButtonGroup.add(typeOptions[option]);
+            typeOptions[option].setForeground(Color.WHITE);
             add(typeOptions[option]);
+            typeButtonGroup.add(typeOptions[option]);
+            JLabel typeLabel = new JLabel();
+            typeLabel.setIcon(new ImageIcon(String.format("src\\res\\%s_%s.png", Type.values()[option].toString().toLowerCase(), "horizontal")));
+            typeLabel.setBounds(60, 100 + option * 75, 300, 60);
+            add(typeLabel);
         }
 
         for (int option = 0; option < orientationOptions.length; option++) {
             orientationOptions[option] = new JRadioButton(Orientation.values()[option].toString());
             orientationOptions[option].setName(Orientation.values()[option].toString());
-            orientationOptions[option].setBounds(240, 85 + option * 75, 120, 25);
+            orientationOptions[option].setBounds(360, 85 + option * 75, 120, 25);
             orientationOptions[option].setOpaque(false);
+            orientationOptions[option].setForeground(Color.WHITE);
             orientationButtonGroup.add(orientationOptions[option]);
             add(orientationOptions[option]);
         }
@@ -65,14 +72,29 @@ public class SetupPanel extends JPanel {
             }
         });
         add(resetButton);
-        matchStartButton.setBounds(240, 575, 120, 60);
+
+        matchStartButton.setBounds(210, 575, 120, 60);
         add(matchStartButton);
+
+        instructionButton.setBounds(360, 575, 120, 60);
+        add(instructionButton);
+
+        autoButton.setBounds(510, 575, 120, 60);
+        add(autoButton);
 
         userBoardGraphics = new UserBoardGraphics(userBoardData, 670, 85);
         add(userBoardGraphics);
 
-        instructionButton.setBounds(420, 575, 120, 60);
-        add(instructionButton);
+
+    }
+
+    /**
+     *
+     * @param graphics
+     */
+    @Override
+    public void paintComponent(Graphics graphics) {
+        backgroundIcon.paintIcon(this, graphics, 0, 0);
     }
 
     /**
@@ -93,8 +115,12 @@ public class SetupPanel extends JPanel {
     /**
      *
      */
-    public void updateTypeOptions() {
-        typeButtonGroup.getSelection().setEnabled(false);
+    public void updateTypeOptions(Type typeSelected) {
+        for (JRadioButton typeOption : typeOptions) {
+            if (typeOption.getName().equals(typeSelected.toString())) {
+                typeOption.setEnabled(false);
+            }
+        }
         typeButtonGroup.clearSelection();
         orientationButtonGroup.clearSelection();
     }
@@ -145,5 +171,13 @@ public class SetupPanel extends JPanel {
      */
     public JButton getInstructionButton() {
         return instructionButton;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public JButton getAutoButton() {
+        return autoButton;
     }
 }
