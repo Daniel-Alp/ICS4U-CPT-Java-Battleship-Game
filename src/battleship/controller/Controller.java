@@ -177,8 +177,8 @@ public class Controller {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-//                reset();
-//                frame.getSetupPanel().resetTypeOptions();
+                reset();
+                frame.getSetupPanel().resetTypeOptions();
                 frame.showPanel("setup");
             }
         });
