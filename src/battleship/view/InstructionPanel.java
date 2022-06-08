@@ -41,9 +41,9 @@ public class InstructionPanel extends JPanel {
     }
 
     /**
-     * Paints the background image. Method is called upon object initialization.
+     * Paints the background image.
      *
-     * @param graphics
+     * @param graphics - used to paint image.
      */
     @Override
     public void paintComponent(Graphics graphics) {
@@ -51,6 +51,7 @@ public class InstructionPanel extends JPanel {
     }
 
     /**
+     * Returns match setup button, used by Controller class to attach listener
      *
      * @return
      */

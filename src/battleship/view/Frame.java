@@ -1,6 +1,9 @@
 /*
  * Frame.java
- * Creates
+ * Creates all graphical components, and exposes methods for getting components,
+ * so that Controller class can attach listeners to them. Any UI interactions
+ * that do not update model are handled by the UI without delegating to
+ * the Controller class.
  * Daniel Alp
  * ICS4U1
  * 2022-06-08
@@ -26,11 +29,11 @@ public class Frame extends JFrame {
     private CardLayout cardLayout = new CardLayout();
 
     /**
+     * Sets basic frame properties, creates components and listeners for them.
      *
-     *
-     * @param userBoardData
-     * @param computerBoardData
-     * @param stats
+     * @param userBoardData - data for user board
+     * @param computerBoardData - data for computer board
+     * @param stats - stats object used to track overall statistics
      */
     public Frame(BoardData userBoardData, BoardData computerBoardData, Stats stats) {
         setTitle("ICS4U1 CPT - Java Battleship");
@@ -111,10 +114,6 @@ public class Frame extends JFrame {
 
         resultPanel = new ResultPanel(userBoardData, stats);
         resultPanel.getMenuButton().addActionListener(new ActionListener() {
-            /**
-             *
-             * @param actionEvent
-             */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 showPanel("menu");

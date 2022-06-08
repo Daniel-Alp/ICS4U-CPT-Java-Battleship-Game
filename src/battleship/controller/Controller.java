@@ -26,11 +26,11 @@ import java.awt.event.MouseEvent;
 public class Controller {
     private BoardData userBoardData = new BoardData();
     private BoardData computerBoardData = new BoardData();
+    private BattleshipAI battleshipAI = new BattleshipAI();
     private StatTracker statTracker = new StatTracker();
     private Frame frame = new Frame(userBoardData, computerBoardData, statTracker.getStats());
     private Orientation userCurShipOrientation = null; // Orientation of the current ship being placed by user
     private Type userCurShipType = null; // Type of current ship being placed by user.
-    private BattleshipAI battleshipAI = new BattleshipAI();
 
     /**
      * Immediately creates listeners for every panel.

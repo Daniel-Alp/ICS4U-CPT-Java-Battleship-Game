@@ -97,8 +97,8 @@ public class BoardData {
     /**
      * The board gets fired at
      *
-     * @param targetCoordinates
-     * @return - whether the ship was hit or missed
+     * @param targetCoordinates - coordinates that the board is fired at.
+     * @return - whether the shot hit a ship.
      */
     public boolean getFiredAt(Coordinate targetCoordinates) {
         enemyShots[targetCoordinates.getRow()][targetCoordinates.getColumn()] = true;
@@ -133,7 +133,7 @@ public class BoardData {
     }
 
     /**
-     *
+     * Return the ship type sunk on the current turn
      *
      * @return -
      */
@@ -142,7 +142,7 @@ public class BoardData {
     }
 
     /**
-     *
+     * Returns board ships, used by Controller class for
      *
      * @return -
      */
@@ -151,7 +151,7 @@ public class BoardData {
     }
 
     /**
-     * Returns
+     * Returns board enemy shots, used for
      *
      * @return -
      */

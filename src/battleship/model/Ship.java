@@ -44,7 +44,7 @@ public class Ship {
      */
     public boolean containsCoordinates(Coordinate target) {
         int targetRow = target.getRow(), targetColumn = target.getColumn();
-        //
+        // Determines if target lies within the range of starting and ending segment of ship
         if (orientation == Orientation.HORIZONTAL) {
             return targetRow == row && targetColumn >= column && targetColumn < column + length;
         } else {

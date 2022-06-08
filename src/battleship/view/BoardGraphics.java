@@ -36,9 +36,11 @@ public abstract class BoardGraphics extends JPanel {
     }
 
     /**
+     * Takes point (x, y) and converts it to board coordinates (row, column).
+     * Returns the board coordinates of the point.
      *
-     * @param point
-     * @return
+     * @param point - point being converted to board coordinates.
+     * @return - board coordinates of the point.
      */
     public static Coordinate pointToBoardCoordinates(Point point) {
         return new Coordinate(point.y / BoardGraphics.TILE_SIZE, point.x / BoardGraphics.TILE_SIZE);
@@ -50,7 +52,11 @@ public abstract class BoardGraphics extends JPanel {
      */
     @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
+        super.paint(graphics); // Calls superclass method to erase anything previously painted on component.
+        /*
+         * Creates Graphics2D object by class-casting superclass Graphics object.
+         * Graphics2D class contains methods TODO
+         */
         Graphics2D graphics2D = (Graphics2D) graphics;
         drawGridlines(graphics2D);
         drawShips(graphics2D);
@@ -60,6 +66,7 @@ public abstract class BoardGraphics extends JPanel {
     }
 
     /**
+     * Draws the gridlines of the board.
      *
      * @param graphics2D
      */
@@ -78,31 +85,27 @@ public abstract class BoardGraphics extends JPanel {
      */
     protected void drawShots(Graphics2D graphics2D) {
         graphics2D.setStroke(new BasicStroke(10));
-        // Turns on antialiasing to render smoother shapes.
+        // Enables antialiasing to paint smoother shapes.
         graphics2D.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        /*
-         *
-         */
+
         for (int row = 0; row < BoardData.BOARD_SIZE; row++) {
             for (int column = 0; column < BoardData.BOARD_SIZE; column++) {
-                if (boardData.getEnemyShots()[row][column]) {
+                if (boardData.getEnemyShots()[row][column]) { // A tile that has not been fired is skipped
                     boolean shipHit = false;
-                    /*
-                     *
-                     */
+                    // Iterates over every ship to determine if any ship is hit in the current coordinate.
                     for (Ship ship : boardData.getShips()) {
                         if (ship.containsCoordinates(new Coordinate(row, column))) {
-                            graphics2D.setColor(new Color(255, 0, 77));
-                            //
-                            graphics2D.drawLine(column * TILE_SIZE + 20, row * TILE_SIZE + 20, (column + 1) * TILE_SIZE - 20, (row + 1) * TILE_SIZE - 20);
-                            graphics2D.drawLine((column + 1) * TILE_SIZE - 20, row * TILE_SIZE + 20, column * TILE_SIZE + 20, (row + 1) * TILE_SIZE - 20);
                             shipHit = true;
                             break;
                         }
                     }
-                    if (!shipHit) { //
+                    if (!shipHit) { // Uses condition result to determine which symbol to paint.
                         graphics2D.setColor(new Color(255, 241, 232));
                         graphics2D.fillOval(column * TILE_SIZE + 20, row * TILE_SIZE + 20, TILE_SIZE - 40, TILE_SIZE - 40);
+                    } else {
+                        graphics2D.setColor(new Color(255, 0, 77));
+                        graphics2D.drawLine(column * TILE_SIZE + 20, row * TILE_SIZE + 20, (column + 1) * TILE_SIZE - 20, (row + 1) * TILE_SIZE - 20);
+                        graphics2D.drawLine((column + 1) * TILE_SIZE - 20, row * TILE_SIZE + 20, column * TILE_SIZE + 20, (row + 1) * TILE_SIZE - 20);
                     }
                 }
             }
@@ -110,7 +113,7 @@ public abstract class BoardGraphics extends JPanel {
     }
 
     /**
-     *
+     * Abstract method inherited by subclasses,
      *
      * @param graphics2D
      */
