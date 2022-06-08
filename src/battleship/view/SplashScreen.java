@@ -11,7 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 
 public class SplashScreen extends JPanel {
-    private ImageIcon splashScreenImg = new ImageIcon("src\\res\\splashscreen.png");
+    private ImageIcon splashScreenIcon = new ImageIcon("src\\res\\splashscreen.png");
     private JProgressBar loadingBar = new JProgressBar();
 
     /**
@@ -33,7 +33,7 @@ public class SplashScreen extends JPanel {
             try {
                 loadingBar.setValue(percent);
                 percent++;
-                Thread.sleep(20);
+                Thread.sleep(45);
             } catch (InterruptedException interruptedException) {
 
             }
@@ -44,7 +44,7 @@ public class SplashScreen extends JPanel {
      *
      * @param graphics
      */
-    public void paintComponent(Graphics graphics) {
-        splashScreenImg.paintIcon(this, graphics, 0, 0);
+    public void paint(Graphics graphics) {
+        splashScreenIcon.paintIcon(this, graphics, 0, 0);
     }
 }

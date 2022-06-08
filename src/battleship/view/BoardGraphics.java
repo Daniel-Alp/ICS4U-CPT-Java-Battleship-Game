@@ -17,26 +17,26 @@ import javax.swing.*;
 import java.awt.*;
 
 public abstract class BoardGraphics extends JPanel {
-    public static final int TILE_SIZE = 55;
+    public static final int TILE_SIZE = 55; // sets size of tile
 
     protected BoardData boardData;
 
     /**
-     *
+     * Initializes basic board properties, i.e. board background colour and board border outline.
      * @param boardData
      * @param x
      * @param y
      */
     public BoardGraphics(BoardData boardData, int x, int y) {
         this.boardData = boardData;
-        setBounds(x, y, BoardData.BOARD_SIZE * TILE_SIZE, BoardData.BOARD_SIZE * TILE_SIZE);
-        setOpaque(true);
-        setBackground(new Color(41, 173, 255));
-        setBorder(BorderFactory.createLineBorder(new Color(95, 87, 79), 5));
+        setBounds(x, y, BoardData.BOARD_SIZE * TILE_SIZE, BoardData.BOARD_SIZE * TILE_SIZE); // Initialize Board
+        setBackground(new Color(41, 173, 255)); // set background colour
+        setBorder(BorderFactory.createLineBorder(new Color(95, 87, 79), 5)); /// create border
     }
 
     /**
-     *
+     * Takes point on board (x,y) and converts it to board coordinates (row, column). Used by
+     * controller class to determine which board tile user is interacting with.
      * @param point
      * @return
      */
@@ -50,7 +50,7 @@ public abstract class BoardGraphics extends JPanel {
      */
     @Override
     public void paint(Graphics graphics) {
-        super.paint(graphics);
+        super.paint(graphics); //
         Graphics2D graphics2D = (Graphics2D) graphics;
         drawGridlines(graphics2D);
         drawShips(graphics2D);
