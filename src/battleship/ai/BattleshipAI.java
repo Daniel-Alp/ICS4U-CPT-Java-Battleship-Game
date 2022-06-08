@@ -53,14 +53,9 @@ public class BattleshipAI {
             for (int[] adjacent : adjacencyArray) {
                 Coordinate adjCoordinate = new Coordinate(prevShot.getRow() + adjacent[0], prevShot.getColumn() + adjacent[1]);
                 // Checks if the adjacent coordinate is out of bounds
-                if (adjCoordinate.getRow() < 0 || adjCoordinate.getRow() >= BoardData.BOARD_SIZE || adjCoordinate.getColumn() < 0 || adjCoordinate.getColumn() >= BoardData.BOARD_SIZE) {
-                    continue;
+                if (adjCoordinate.getRow() < 0 && adjCoordinate.getRow() >= BoardData.BOARD_SIZE && adjCoordinate.getColumn() < 0 && adjCoordinate.getColumn() >= BoardData.BOARD_SIZE) {
+                    targetingShots.add(adjCoordinate);
                 }
-                // Checks if coordinate has not been fired at
-                if (!validShots[adjCoordinate.getRow()][adjCoordinate.getColumn()]) {
-                    continue;
-                }
-                targetingShots.add(adjCoordinate);
             }
         }
         if (typeSunk != null) {
@@ -75,7 +70,8 @@ public class BattleshipAI {
     }
 
     /**
-     * Gets the AI's shot, and updates the AI's knowledge
+     * Gets the AI's shot, and updates the AI's knowledge. Also validates all
+     * shots before returning them, ensuring no invalid shots are returned.
      *
      * @return - return's the AI's shot
      */

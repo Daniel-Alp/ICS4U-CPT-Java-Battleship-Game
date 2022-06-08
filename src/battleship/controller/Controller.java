@@ -33,7 +33,7 @@ public class Controller {
     private BattleshipAI battleshipAI = new BattleshipAI();
 
     /**
-     * I
+     * Immediately creates listeners for every panel.
      */
     public Controller() {
         addMenuPanelListeners();
@@ -44,7 +44,7 @@ public class Controller {
     }
 
     /**
-     *
+     * Creates listeners for the menu pane.
      */
     private void addMenuPanelListeners() {
         frame.getMenuPanel().getMatchSetupButton().addActionListener(new ActionListener() {
@@ -136,6 +136,7 @@ public class Controller {
 
         frame.getSetupPanel().getMatchStartButton().addActionListener(new ActionListener() {
             /**
+             * Displays match panel if all user ships are placed.
              *
              * @param actionEvent - event that is generated when the button is interacted with
              */
@@ -176,8 +177,8 @@ public class Controller {
              */
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                reset();
-                frame.getSetupPanel().resetTypeOptions();
+//                reset();
+//                frame.getSetupPanel().resetTypeOptions();
                 frame.showPanel("setup");
             }
         });
@@ -225,7 +226,8 @@ public class Controller {
     }
 
     /**
-     *
+     * Plays next move of the game, then checks if the game is over. Updates
+     * model, game state, battleship AI and graphics accordingly.
      *
      * @param targetBoardData - board data that is being fired at
      * @param targetCoordinates - coordinates that the board is being fired at
@@ -239,13 +241,13 @@ public class Controller {
         }
 
         if (targetBoardData.fleetSunk()) {
-            GameState.setState(GameState.RESULT);
-            if (targetBoardData == userBoardData) { // Updates stats based on which player won
+            GameState.setState(GameState.RESULT); // Sets game state to result, preventing user from firing at the board.
+            if (targetBoardData == userBoardData) {
                 statTracker.getStats().increaseComputerWins();
             } else {
                 statTracker.getStats().increaseUserWins();
             }
-            statTracker.updateStatsFile(); // Updates stats file after every game, preventing
+            statTracker.updateStatsFile(); // Updates stats file after every game, letting
             frame.showPanel("result");
         }
     }

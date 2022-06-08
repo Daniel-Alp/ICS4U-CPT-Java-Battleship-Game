@@ -13,6 +13,7 @@ import java.awt.*;
 public class InstructionPanel extends JPanel {
     private JButton matchSetupButton = new JButton("PLAY GAME");
     private ImageIcon backgroundIcon = new ImageIcon("src\\res\\background.png");
+    // Uses HTML formatting when creating label text. This wraps the text around if it ever goes out of bounds.
     private JLabel instructionsLabel = new JLabel(
             "<html>RULES:<br/><br/>" +
                     "Game objective:<br/>" +

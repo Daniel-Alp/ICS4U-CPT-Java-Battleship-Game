@@ -1,3 +1,11 @@
+/*
+ * Frame.java
+ * Creates
+ * Daniel Alp
+ * ICS4U1
+ * 2022-06-08
+ */
+
 package battleship.view;
 
 import battleship.model.BoardData;
@@ -17,6 +25,13 @@ public class Frame extends JFrame {
     private JPanel cardPanel = new JPanel();
     private CardLayout cardLayout = new CardLayout();
 
+    /**
+     *
+     *
+     * @param userBoardData
+     * @param computerBoardData
+     * @param stats
+     */
     public Frame(BoardData userBoardData, BoardData computerBoardData, Stats stats) {
         setTitle("ICS4U1 CPT - Java Battleship");
         setSize(1280, 720);
@@ -54,6 +69,7 @@ public class Frame extends JFrame {
         instructionPanel = new InstructionPanel();
         instructionPanel.getMatchSetupButton().addActionListener(new ActionListener() {
             /**
+             *
              *
              * @param actionEvent
              */
@@ -115,11 +131,18 @@ public class Frame extends JFrame {
     }
 
     public void showPanel(String panelName) {
+        /*
+         * If the panel to be shown is the result panel, there is a two-second
+         * delay before the panel is shown. Uses Timer class instead of the Thread.sleep
+         * as Timer class does not block the GUI thread, allowing the user to still interact
+         * with the GUI.
+         */
         if (panelName.equals("result")) {
             Timer delayTimer = new Timer(2000, new ActionListener() {
                 /**
+                 * Shows result panel, and calls method for it to update the winner of the current match.a
                  *
-                 * @param actionEvent
+                 * @param actionEvent - event that is generated after timer delay passes
                  */
                 @Override
                 public void actionPerformed(ActionEvent actionEvent) {
@@ -135,18 +158,19 @@ public class Frame extends JFrame {
     }
 
     /**
+     * Generates a confirmation dialog box, and prompts user to confirm the
+     * action. If user confirms action, respective destination panel is shown.
      *
      * @param currentPanel
      */
     public void confirmExit(String currentPanel) {
-        //
         int response = JOptionPane.showConfirmDialog(
                 Frame.this,
                 "Are you sure you want to exit " + currentPanel + "? Progress will not be saved.",
                 "exitMatch",
                 JOptionPane.YES_NO_OPTION);
         if (response == JOptionPane.YES_OPTION) {
-            if (currentPanel.equals("setup")) { //
+            if (currentPanel.equals("setup")) {
                 showPanel("else");
             } else if (currentPanel.equals("match")) {
                 showPanel("menu");
@@ -156,8 +180,9 @@ public class Frame extends JFrame {
     }
 
     /**
+     * Return menu panel
      *
-     * @return
+     * @return - menu panel
      */
     public MenuPanel getMenuPanel() {
         return menuPanel;
@@ -165,7 +190,7 @@ public class Frame extends JFrame {
 
     /**
      *
-     * @return
+     * @return - instruction panel
      */
     public InstructionPanel getInstructionPanel() {
         return instructionPanel;
@@ -173,7 +198,7 @@ public class Frame extends JFrame {
 
     /**
      *
-     * @return
+     * @return - setup panel
      */
     public SetupPanel getSetupPanel() {
         return setupPanel;
@@ -181,7 +206,7 @@ public class Frame extends JFrame {
 
     /**
      *
-     * @return
+     * @return - match panel
      */
     public MatchPanel getMatchPanel() {
         return matchPanel;
