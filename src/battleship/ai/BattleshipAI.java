@@ -53,7 +53,7 @@ public class BattleshipAI {
             for (int[] adjacent : adjacencyArray) {
                 Coordinate adjCoordinate = new Coordinate(prevShot.getRow() + adjacent[0], prevShot.getColumn() + adjacent[1]);
                 // Checks if the adjacent coordinate is out of bounds
-                if (adjCoordinate.getRow() < 0 && adjCoordinate.getRow() >= BoardData.BOARD_SIZE && adjCoordinate.getColumn() < 0 && adjCoordinate.getColumn() >= BoardData.BOARD_SIZE) {
+                if (adjCoordinate.getRow() >= 0 && adjCoordinate.getRow() < BoardData.BOARD_SIZE && adjCoordinate.getColumn() >= 0 && adjCoordinate.getColumn() < BoardData.BOARD_SIZE) {
                     targetingShots.add(adjCoordinate);
                 }
             }
